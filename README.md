@@ -35,13 +35,13 @@
 - SQLite
 
 ## 🚀 Get Started
-##Web-dashboard
+## Run Web Dashboard
 ```bash
 cd Dashboard
 npm install
 npm run dev
 ```
-##Shopping
+## Run Web Shopping
 ```bash
 cd Shopping
 npm install
