@@ -1,0 +1,269 @@
+.tone-imgmain{
+    width: 100%;
+    height: 344px;
+    background-color: #f0f0f0;
+    display: flex;
+
+    justify-content: center; /* จัดให้เนื้อหาอยู่กึ่งกลางแนวนอน */
+    align-items: center; /* จัดให้เนื้อหาอยู่กึ่งกลางแนวตั้ง */
+}
+
+.sectionbox {
+    display: flex;
+    justify-content: center; /* จัดให้ภายในตรงกลางตามแนวแกน X */
+    align-items: center; /* จัดให้ภายในตรงกลางตามแนวแกน Y */
+    height: 100%; /* ใช้ส่วนความสูง*/
+    width: 1007px;
+}
+
+.sectionbox img{
+    width: 100%;
+    height: 344px;
+}
+
+.starraing img {
+    width: 15px; /* ปรับขนาดความกว้างของรูปเป็น 100px */
+    height: 15px; /* ให้ความสูงปรับอัตโนมัติเพื่อรักษาอัตราส่วน */
+
+}
+
+.starraing  {
+    gap: 10px; /* กำหนดความระยะห่างระหว่างรูปภาพ */
+
+
+}
+
+.star{
+    width: 15px; /* ปรับขนาดความกว้างของรูปเป็น 100px */
+    height: 15px; /* ให้ความสูงปรับอัตโนมัติเพื่อรักษาอัตราส่วน */
+}
+
+.ratingflex{
+    display: flex;
+    margin-bottom: 10px;
+}
+
+
+
+
+.pc-download-module{
+    height: 333px;
+    padding: 6px;
+    width: 194px;
+    background: linear-gradient(90deg, #fff, hsla(0, 0%, 100%, 0)), linear-gradient(179.27deg, #ffedd6 .83%, #ffc3e3 46.78%, #fff 99.57%), linear-gradient(0deg, #fff, #fff);
+
+
+}
+
+.cop-lasa{
+    display: flex;
+}
+
+.cop-lasa{
+    align-items: center; /* จัดให้เนื้อหาอยู่ตรงกลางแนวตั้ง */
+    text-align: center; /* จัดให้เนื้อหาอยู่ตรงกลางแนวนอน */
+}
+
+
+.wds{
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    color: #6c1d00;
+    display: -webkit-box;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 18px;
+    margin-left: 6px;
+    max-width: 138px;
+    /*overflow: hidden;*/
+}
+
+
+.minimig {
+    width: 42px;
+    width: 42px;
+}
+
+
+
+
+.picture-wrapper img {
+    display: inline-block;
+    height: auto;
+    max-height: 100%;
+    max-width: 100%;
+    width: auto;
+}
+
+.pc-download-module .m-footer .content .download-btn .btn {
+    background-size: 100% auto;
+    height: 24px; /* ความสูงของปุ่ม */
+    width: 83px; /* ความกว้างของปุ่ม */
+    display: inline-block; /* ทำให้แสดงเป็นบล็อก */
+}
+
+
+
+.content {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    /*justify-content: space-between;  จัดให้เนื้อหากระจัดเรียงแนวตั้ง */
+}
+
+.qr-code-wrap {
+    background: #fff;
+    height: 90px;
+    margin-right: 6px;
+   /* overflow: hidden;*/
+    width: 90px;
+}
+
+.picture-wrapper img {
+    display: block; /* ปรับเป็น block เพื่อให้รูปภาพเต็มความกว้าง */
+    height: auto;
+    max-width: 100%; /* รักษาอัตราส่วน */
+}
+
+.download-btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.btn1, .btn2 {
+    background-size: 100% auto;
+    height: 24px;
+    width: 83px;
+}
+
+.download-btn img {
+    margin-bottom: 10px; /* ปรับความห่างด้านล่างระหว่างรูปภาพ */
+}
+
+.m-body {
+    margin-bottom: 7px; /* ปรับความห่างด้านล่างของ .m-body */
+}
+
+/*falst**/
+
+.dwss h1{
+    margin: 0; /* ลบการขยับขอบของ h1 */
+}
+
+.dwss{
+    width:1200px;
+}
+.score {
+    align-items: center;
+    color: #fff;
+    display: flex;
+    flex-direction: row;
+    margin-left: 8px;
+    margin-top: 8px;
+    
+  }
+
+
+.picture-wrapper > img {
+    display: inline-block;
+    height: auto;
+    max-height: 100%;
+    max-width: 100%;
+    width: auto;
+}
+
+/*.rated-txt {
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 14px;
+    margin-left: 2px;
+    max-width: 56px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+    */
+.rated-txt {
+  font-size: 10px;
+  font-weight: 501;
+  line-height: 14px;
+  margin-left: 2px;
+  max-width: 64px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.picture-wrapper {
+    display: flex; /* เพิ่มการใช้ flex เพื่อให้รูปภาพและตัวอักษรเรียงกัน */
+    align-items: center; /* จัดให้ภาพและตัวอักษรอยู่กลางแนวตั้ง */
+}
+
+.enjoy-tips {
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    color: #fff;
+    display: -webkit-box;
+    font-size: 12px;
+    font-weight: 500;
+    max-width: 164px;
+    overflow: hidden;
+    text-align: center;
+  }
+
+.enjoy-tips-wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: 6px;
+    min-height: 30px;
+  }
+
+.ls-ul {
+    margin-top: 6px;
+    padding-left: 33px;
+  }
+  
+.ls{
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+  
+}
+.badge {
+    height: 36px;
+    width: 36px;
+}
+
+.txt {
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    color: #fff;
+    display: -webkit-box;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 15px;
+    margin-left: 9px;
+    max-width: 82px;
+    overflow: hidden;
+  }
+
+.ls:last-child {
+    margin-top: 6px;
+  }
+
+.m-footer {
+    margin-top: 6px;
+  }
+ 
+.download-tips {
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    color: #2e3346;
+    display: -webkit-box;
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 12px;
+    margin-left: 4px;
+    margin-top: 6px;
+    overflow: hidden;
+  }  

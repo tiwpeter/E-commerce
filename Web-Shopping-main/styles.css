@@ -1,0 +1,82 @@
+/* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+/* Header Styles */
+header {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: #fff;
+}
+
+.logo img {
+    height: 40px;
+}
+
+.auth button {
+    padding: 10px 20px;
+    margin-left: 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    background-color: #ff6f00;
+    color: white;
+    border-radius: 5px;
+}
+
+/* Banner Styles */
+.banner {
+    background-color: #e3f2fd;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.banner-content h1 {
+    font-size: 24px;
+    color: #000;
+}
+
+.banner-content p {
+    font-size: 18px;
+    color: #333;
+}
+
+.banner-content .register-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #ff6f00;
+    color: white;
+    border-radius: 5px;
+}
+
+/* Categories Section Styles */
+.categories {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+    background-color: #f4f4f4;
+}
+
+.category {
+    text-align: center;
+    width: 150px;
+}
+
+.category img {
+    width: 60px;
+    height: 60px;
+}
+
+.category p {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #333;
+}

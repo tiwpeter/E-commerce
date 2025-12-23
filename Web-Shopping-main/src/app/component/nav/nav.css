@@ -1,0 +1,275 @@
+.space{
+}
+
+.header-container {
+    display: flex;
+    /*justify-content: space-between;*/
+    align-items: center;
+    background-color: #FFFFFF;
+    position: fixed;
+    width: 100%;
+    padding: 10px 65px;
+    z-index: 1000;
+}
+
+.shopkun .logo-text {
+    display: flex;
+    align-items: center;
+}
+
+.logo-text img {
+    margin-right: 10px; /* Adjust the spacing between the image and the text */
+}
+
+
+
+.search-button img {
+    width: 32px;
+    height: 32px;
+    object-fit: cover;
+}
+
+/*
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    margin-right: -40px;
+}
+
+.search-bar input[type="text"] {
+    width: 450px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px 0 0 4px;
+    font-size: 14px;
+}
+
+
+
+.search-button {
+    padding: 0;
+    border: 1px solid #ccc;
+    border-radius: 0 4px 4px 0;
+    background-color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-icon {
+    width: 20px;
+}
+
+.shop-icon {
+    width: 35px;
+}
+
+.fa-cart-shopping {
+    font-size: 24px;
+    color: #333;
+}
+
+.tag-icon {
+    width: 250px;
+    margin-right: 120px;
+}
+
+.dsss h1 {
+    text-align: left;
+    margin-left: 0px;
+  }
+
+*/
+
+.cart-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7); /* พื้นหลังมืด */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* ทำให้โมดอลอยู่ด้านบนสุด */
+}
+
+.cart-modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 600px; /* ขนาดสูงสุด */
+  overflow-y: auto;
+}
+
+.cart-items {
+  list-style-type: none;
+  padding: 0;
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.cart-item-image {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.cart-item-details {
+  flex: 1;
+  padding-left: 10px;
+}
+
+.remove-button {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.remove-button:hover {
+  background-color: darkred;
+}
+
+.clear-cart-button,
+.checkout-button {
+  margin-top: 10px;
+  padding: 10px;
+  width: 100%;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.clear-cart-button:hover,
+.checkout-button:hover {
+  background-color: #45a049;
+}
+
+.close-cart-button {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.close-cart-button:hover {
+  background-color: #e53935;
+}
+.search-bar input[type="text"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.search-button {
+    background-color: #f57224;
+    border: none;
+    padding: 11px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.search-button img {
+    width: 20px;
+    height: 20px;
+}
+
+.search-bar input[type="text"] {
+   /* position: absolute;*/
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    box-sizing: border-box;
+    width: 668px;
+    height: 45px;
+    padding: 13px 19px;
+    font-family: Roboto-Regular,Helvetica,sans-serif;
+    font-size: 14px;
+    line-height: 1;
+    letter-spacing: 0;
+    color: #212121;
+    border: none;
+    outline: none;
+    background: #eff0f5;
+    box-shadow: none;
+    border-radius: 2px;
+  }
+
+.cart-icon {
+  margin-left: 20px;
+}
+.shopkun img {
+    height: 56px;
+    width: 100px;
+    border: 10px;
+    border-radius: 8px;
+}
+
+.shop-text img {
+    height: 56px;
+    width: 100px;
+    border: 10px;
+    border-radius: 8px;
+}
+
+.shop-text {
+     height: 30px;
+    width: 100px;
+    border: 10px;
+    border-radius: 8px;
+}
+
+
+.image-border {
+    border: 2px solid black;
+}
+
+.shopkun .logo-text {
+    display: flex;
+    align-items: center;
+    height: 75px;
+    width: 314px;
+} 
+
+.search-button img {
+    width: 32px;
+    height: 32px;
+    object-fit: cover;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center; /* จัดให้อยู่ตรงกลางแนวตั้ง */
+}
+
+.header-container {
+    display: flex;
+    align-items: center; /* จัดให้อยู่ตรงกลางแนวตั้ง */
+    justify-content: center;
+    position: fixed;
+    width: 100%;
+
+    background-color: #FFFFFF;
+padding: 10px 65px;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center; /* จัดให้อยู่ตรงกลางแนวตั้ง */
+}
