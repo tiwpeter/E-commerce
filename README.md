@@ -39,7 +39,7 @@
 cd Dashboard
 npm install
 npm run dev
-
+```
 ```bash
 cd Shopping
 npm install
