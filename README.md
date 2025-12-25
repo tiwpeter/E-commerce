@@ -1,7 +1,8 @@
 # 🛒 Full Stack E-Commerce Platform (Next.js)
 
-ระบบ E-commerce แบบ Full Stack  
-พัฒนาด้วย **Next.js 
+ระบบ E-commerce แบบ Full Stack
+พัฒนาด้วย Next.js (App Router) ครอบคลุมทั้งฝั่งผู้ใช้งานและฝั่งผู้ดูแลระบบ
+ใช้ Prisma ORM เชื่อมต่อฐานข้อมูล SQLite
 
 ---
 
@@ -30,8 +31,9 @@
 - Tailwind CSS
 - Next.js Route Handlers (`app/api`)
 
-### Database
+### Database & ORM
 - SQLite
+- Prisma ORM
 
 ## 🚀 Get Started
 ## Run Web Dashboard
