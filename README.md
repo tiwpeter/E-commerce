@@ -1,8 +1,7 @@
 # 🛒 Full Stack E-Commerce Platform (Next.js)
 
 ระบบ E-commerce แบบ Full Stack  
-พัฒนาด้วย **Next.js เพียง Framework เดียว**  
-รวมระบบ **Shopping (User)** และ **Admin Dashboard** ไว้ใน Repository เดียว
+พัฒนาด้วย **Next.js 
 
 ---
 
