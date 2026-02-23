@@ -4,6 +4,8 @@ import helmet from 'helmet'
 import morgan from 'morgan'
 import { errorHandler } from '@/shared/middleware/errorHandler'
 import { notFound } from '@/shared/middleware/notFound'
+import swaggerUi from 'swagger-ui-express'
+import { swaggerSpec } from '@/shared/lib/swagger'
 
 const app = express()
 
@@ -17,6 +19,8 @@ app.use(express.json())
 app.get('/health', (_req, res) => {
   res.json({ success: true, message: 'ecom-api is running' })
 })
+// เพิ่มหลัง middleware block
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 
 // Routes (จะ add เพิ่มใน step ถัดไป)
 // app.use('/api/v1/products', productRoutes)
