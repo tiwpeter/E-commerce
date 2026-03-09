@@ -1,0 +1,80 @@
+next 13 APi Use
+import { NextResponse } from "next/server";
+
+export async function GET() {
+  return new NextResponse(JSON.stringify({ message: "Hello, World!" }), {
+    status: 200,
+    headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*", // ให้ทุกโดเมนเข้าถึงได้
+    },
+  });
+}
+
+==== Cor
+
+node db.js === create sqlite
+
+python w.py ==== json
+
+
+id = use SELECT p.id, p.name, c.category_name = convert is name
+----
+
+LEFT JOIN
+
+คำสั่ง SELECT ใช้ในการเลือกหรือดึงข้อมูลจากตารางในฐานข้อมูล Get
+คำสั่ง FROM ใช้ในการระบุชื่อตารางที่เราต้องการดึงข้อมูลจาก 
+คำสั่ง LEFT JOIN(หรือ LEFT OUTER JOIN) ใช้ในการรวมข้อมูลจากสองตารางหรือมากกว่านั้น โดยจะดึงข้อมูลจากตารางแรก(left table) และจะรวมข้อมูลจากตารางที่สอง(right table) หากมีการตรงกันในคอลัมน์ที่เชื่อมโยงกัน แต่หากไม่มีข้อมูลในตารางที่สอง ตำแหน่งที่ไม่มีข้อมูลจะมีค่าเป็น NULL.
+ช้ในการรวมข้อมูลจากสองตารางหรือมากกว่านั้น
+
+
+-------------
+1. สร้าง API Route แบบ Dynamic
+ในไฟล์ [id].js คุณสามารถใช้ฟังก์ชัน handler เพื่อจัดการ request และ response.
+
+// pages/api/posts/[id].js
+
+export default function handler(req, res) {
+  const {
+    query: { id },
+  } = req;
+
+  // สมมติว่าเรามีข้อมูลโพสต์ที่เก็บในตัวแปร
+  const posts = [
+    { id: 1, title: 'Post 1' },
+    { id: 2, title: 'Post 2' },
+  ];
+
+  const post = posts.find((p) => p.id === parseInt(id));
+
+  if (post) {
+    res.status(200).json(post);
+  } else {
+    res.status(404).json({ error: 'Post not found' });
+  }
+}
+
+---
+ 
+Not use Promoise
+Promoise 
+
+------
+ตาราง
+คอมลัม
+ insert
+
+ \----
+
+ เพื่อให้ข้อมูลคำสั่งซื้อจาก client รวมทั้งข้อมูลเกี่ยวกับ item และ payment ส่งไปในรูปแบบที่ต้องการ (เช่น รวม item และ payment ใน object เดียวกัน) คุณสามารถปรับโค้ดที่ส่งข้อมูลจาก client ไปยัง server ได้ตามนี้:
+ --
+ // ตรวจสอบให้ item เป็น array เสมอ
+
+
+ ---
+ การทำงานของโค้ดนี้คือการนำข้อมูลจากหลายๆ ฟิลด์ใน shippingInfo มารวมกันในรูปแบบของสตริง (string) ที่มีข้อมูลทั้งหมดของที่อยู่ที่ผู้ใช้กรอก เช่น ที่อยู่, จังหวัด, เขต/อำเภอ และรหัสไปรษณีย์ โดยทำการใช้การต่อข้อความ (string concatenation) เพื่อรวมทุกฟิลด์เหล่านั้นเข้าเป็นสตริงเดียวกัน
+
+ในที่นี้, โค้ด:
+
+const fullAddress = `${shippingInfo.address}, ${shippingInfo.district}, ${shippingInfo.province}, ${ship

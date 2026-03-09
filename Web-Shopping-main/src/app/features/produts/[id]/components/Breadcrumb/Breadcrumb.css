@@ -1,0 +1,61 @@
+.wfg {
+    width: 100%;
+    max-width: 1200px;
+    text-align: left;
+    margin: 0 auto;
+    display:flex;
+   /* gap: 25px;*/
+}
+
+
+.ex{
+    padding-left: 0;
+    margin-left: -4px;
+    height: 48px;
+    vertical-align: middle;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.sug::before {
+  content: " > ";    /* เพิ่มเครื่องหมาย '>' */
+  color: #333;       /* กำหนดสีของเครื่องหมาย '>' */
+  font-weight: bold; /* กำหนดน้ำหนักฟอนต์ให้เข้ม */
+  margin-right: 10px; /* เพิ่มระยะห่างระหว่างเครื่องหมายและข้อความ */
+      margin-left: 10px;
+}
+
+ul {
+  list-style: none;  /* เอาไอคอน/เครื่องหมาย dot ออก */
+  padding-left: 0;   /* เอาการเยื้องซ้ายออก */
+}
+
+/* เอาเครื่องหมาย '>' ออกจาก li ตัวแรก */
+.sug:first-child::before {
+    content: ""; /* ไม่แสดงอะไรในตัวแรก */
+  padding-left: 0; /* ไม่มีการเยื้องซ้าย */
+  margin-right: 0; /* ไม่มีระยะห่างขวา */
+      margin-left: 0;
+}
+
+.faaa{
+    background: #EFF0F5;
+}
+
+.sug{
+    height: 48px;
+    align-items: center;
+    display: flex;
+}
+
+.sug-a{
+    font-size: 14px;
+    font-family: Roboto-Regular, Helvetica, Arial, sans-serif;
+    white-space: nowrap;
+    line-height: 16px;
+}
+
+.lpwq{
+        color: #1a9cb7;
+
+}
