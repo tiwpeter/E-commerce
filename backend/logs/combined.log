@@ -1151,3 +1151,10 @@
 {"level":"http","message":"::1 - - [08/Mar/2026:22:25:48 +0000] \"GET /api-docs/swagger-ui-standalone-preset.js HTTP/1.1\" 200 - \"-\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36\"","service":"ecommerce-api","timestamp":"2026-03-08T22:25:48.417Z"}
 {"level":"http","message":"::1 - - [08/Mar/2026:22:25:48 +0000] \"GET /api-docs/swagger-ui-bundle.js HTTP/1.1\" 200 - \"-\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36\"","service":"ecommerce-api","timestamp":"2026-03-08T22:25:48.505Z"}
 {"level":"http","message":"::1 - - [08/Mar/2026:22:25:49 +0000] \"GET /api-docs/favicon-32x32.png HTTP/1.1\" 200 628 \"-\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36\"","service":"ecommerce-api","timestamp":"2026-03-08T22:25:49.230Z"}
+{"level":"info","message":"✅ Database connected","service":"ecommerce-api","timestamp":"2026-03-10T05:55:26.825Z"}
+{"level":"info","message":"🚀 Server running on port 5000","service":"ecommerce-api","timestamp":"2026-03-10T05:55:26.866Z"}
+{"level":"info","message":"📖 API Docs: http://localhost:5000/api-docs","service":"ecommerce-api","timestamp":"2026-03-10T05:55:26.868Z"}
+{"level":"info","message":"🌍 Environment: development","service":"ecommerce-api","timestamp":"2026-03-10T05:55:26.869Z"}
+{"level":"info","message":"📡 API Prefix: /api/v1","service":"ecommerce-api","timestamp":"2026-03-10T05:55:26.871Z"}
+{"level":"http","message":"::1 - - [10/Mar/2026:05:58:42 +0000] \"GET /api-docs.json HTTP/1.1\" 200 - \"-\" \"node\"","service":"ecommerce-api","timestamp":"2026-03-10T05:58:42.722Z"}
+{"level":"info","message":"SIGINT received. Starting graceful shutdown...","service":"ecommerce-api","timestamp":"2026-03-10T06:00:33.351Z"}
