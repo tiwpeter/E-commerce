@@ -4,6 +4,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { productsService } from '@/services/products.service'
 import { ProductsQuery } from '@/types/api.types'
+import { QUERY_KEYS } from '@/lib/constants'
 
 // ── List ──────────────────────────────────────────────
 // params   — filter, sort, pagination (optional)
@@ -23,7 +24,7 @@ export function useProducts(
 
 // ── Detail by ID ──────────────────────────────────────
 // enabled: !!id — ไม่ fetch ถ้าไม่มี id
-export function useProduct(id: string) {
+export function useProductById(id: string) {
   return useQuery({
     queryKey: ['products', id],
     queryFn:  () => productsService.getById(id),
@@ -36,7 +37,7 @@ export function useProduct(id: string) {
 // ใช้ใน URL เช่น /products/wireless-headphones
 export function useProductBySlug(slug: string) {
   return useQuery({
-    queryKey: ['products', 'slug', slug],
+    queryKey: QUERY_KEYS.PRODUCT(slug),  // ← ใช้ QUERY_KEYS แทน hardcode
     queryFn:  () => productsService.getBySlug(slug),
     enabled:  !!slug,
     staleTime: 1000 * 60 * 5,

@@ -6,7 +6,7 @@
 // ─────────────────────────────────────────────────────────────────
 'use client'
 
-import { FeaturedProducts } from '@/features/products/components/FeaturedProducts'
+import { FeaturedProducts } from '@/(shop)/_components/FeaturedProducts'
 
 export function HomePageClient() {
   return (

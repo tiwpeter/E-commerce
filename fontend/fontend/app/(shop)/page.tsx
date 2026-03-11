@@ -2,6 +2,7 @@
 // ─────────────────────────────────────────────────────────────────
 // Server Component — prefetch data บน server แล้วส่งผ่าน
 // HydrationBoundary ลงให้ HomePageClient
+// Server prefetch
 // ─────────────────────────────────────────────────────────────────
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import type { Metadata } from 'next';

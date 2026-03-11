@@ -1,8 +1,8 @@
 // src/features/products/components/FeaturedProducts.tsx
 // Pure section component ใน feature/products
 // รับ products[] + isLoading + onAddToCart จาก HomePageClient
-import { Product } from '@/types';
-import { useProducts } from '../hooks';
+import { useProducts } from '@/features/products/hooks';
+import { ProductCard } from '@/features/products/components/ProductCard';
 
 
 export function FeaturedProducts() {
@@ -21,10 +21,3 @@ export function FeaturedProducts() {
   );
 }
 
-export function ProductCard({ product }: { product: Product }) {
-  return (
-    <div>
-      <h3>{product.name}</h3>
-    </div>
-  );
-}
