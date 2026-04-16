@@ -5,13 +5,19 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 generator zod {
   provider = "zod-prisma-types"
   output   = "./generated/zod" // (Optional) กำหนดโฟลเดอร์ปลายทาง
 }
+
+generator express {
+  provider = "prisma-generator-express"
+  output   = "../src/generated"
+}
+
+
 
 model User {
   id       String @id @default(uuid())
