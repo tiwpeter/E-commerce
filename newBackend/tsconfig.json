@@ -20,11 +20,12 @@
     "noFallthroughCasesInSwitch": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "@generated/*": ["generated/*"]
     },
     "noUnusedLocals": false,
     "noUnusedParameters": false
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "prisma"],
   "exclude": ["node_modules", "dist", "**/*.test.ts"]
 }

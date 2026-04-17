@@ -12,10 +12,6 @@ generator zod {
   output   = "./generated/zod" // (Optional) กำหนดโฟลเดอร์ปลายทาง
 }
 
-generator express {
-  provider = "prisma-generator-express"
-  output   = "../src/generated"
-}
 
 
 
