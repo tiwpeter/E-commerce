@@ -1,22 +1,56 @@
-// src/app.ts หรือ src/index.ts
-import { UserRouter } from "./generated/User/UserRouter";
+import { createApp } from './app';
+import { connectDatabase, disconnectDatabase } from './config/database';
+import { config } from './config/app.config';
+import { logger } from './utils/logger';
 
+const startServer = async (): Promise<void> => {
+  try {
+    // Connect to database
+    await connectDatabase();
 
-const express = require('express');
-const app = express();
-const port = 3000;
+    // Create and start Express app
+    const app = createApp();
+    const server = app.listen(config.app.port, () => {
+      logger.info(`🚀 Server running on port ${config.app.port}`);
+      logger.info(`📖 API Docs: http://localhost:${config.app.port}/api-docs`);
+      logger.info(`🌍 Environment: ${config.app.env}`);
+      logger.info(`📡 API Prefix: ${config.app.apiPrefix}`);
+    });
 
+    // ─── Graceful Shutdown ─────────────────────────────────────────
+    const gracefulShutdown = async (signal: string): Promise<void> => {
+      logger.info(`${signal} received. Starting graceful shutdown...`);
 
+      server.close(async () => {
+        logger.info('HTTP server closed');
+        await disconnectDatabase();
+        logger.info('Graceful shutdown complete');
+        process.exit(0);
+      });
 
-app.use('/api/users', UserRouter)
+      // Force shutdown after 10 seconds
+      setTimeout(() => {
+        logger.error('Forced shutdown after timeout');
+        process.exit(1);
+      }, 10_000);
+    };
 
+    process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
+    process.on('SIGINT', () => gracefulShutdown('SIGINT'));
 
-// Define a route for the root URL
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
+    // Handle unhandled rejections
+    process.on('unhandledRejection', (reason: Error) => {
+      logger.error('Unhandled Promise Rejection:', reason);
+    });
 
-// Start the server
-app.listen(port, () => {
-  console.log(`Server listening at http://localhost:${port}`);
-});
+    process.on('uncaughtException', (error: Error) => {
+      logger.error('Uncaught Exception:', error);
+      process.exit(1);
+    });
+  } catch (error) {
+    logger.error('Failed to start server:', error);
+    process.exit(1);
+  }
+};
+
+startServer();

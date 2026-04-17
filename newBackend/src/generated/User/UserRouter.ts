@@ -4,7 +4,7 @@ import express, {
   NextFunction,
   RequestHandler,
 } from "express";
-import type { PrismaClient } from "../../../node_modules/@prisma/client";
+import type { PrismaClient } from "../../../../node_modules/@prisma/client";
 import {
   UserFindUnique,
   UserFindUniqueOrThrow,

@@ -1,4 +1,4 @@
-import { PrismaClient } from "../../../node_modules/@prisma/client";
+import { PrismaClient } from "../../../../node_modules/@prisma/client";
 import { Request, Response, NextFunction } from "express";
 import { sanitizeKeys } from "../misc";
 
