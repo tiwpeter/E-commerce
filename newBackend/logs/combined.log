@@ -1,0 +1,6 @@
+{"level":"info","message":"✅ Database connected","service":"ecommerce-api","timestamp":"2026-04-19T10:46:48.122Z"}
+{"level":"info","message":"🚀 Server running on port 5000","service":"ecommerce-api","timestamp":"2026-04-19T10:46:48.149Z"}
+{"level":"info","message":"📖 API Docs: http://localhost:5000/api-docs","service":"ecommerce-api","timestamp":"2026-04-19T10:46:48.151Z"}
+{"level":"info","message":"🌍 Environment: development","service":"ecommerce-api","timestamp":"2026-04-19T10:46:48.152Z"}
+{"level":"info","message":"📡 API Prefix: /api/v1","service":"ecommerce-api","timestamp":"2026-04-19T10:46:48.152Z"}
+{"level":"info","message":"SIGINT received. Starting graceful shutdown...","service":"ecommerce-api","timestamp":"2026-04-19T10:46:49.689Z"}

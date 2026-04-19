@@ -1,30 +1,33 @@
-import { PrismaPg } from '@prisma/adapter-pg';
 import { PrismaClient } from '@prisma/client';
-import { config } from '../config/app.config';
+import { config } from './app.config';
 import { logger } from '../utils/logger';
 
 declare global {
+  // eslint-disable-next-line no-var
   var __prisma: PrismaClient | undefined;
 }
 
 const createPrismaClient = (): PrismaClient => {
-  const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
   return new PrismaClient({
-    adapter,
-    log: config.app.isDevelopment
-      ? [
-          { emit: 'event', level: 'query' },
-          { emit: 'event', level: 'error' },
-          { emit: 'event', level: 'warn' },
-        ]
-      : [{ emit: 'event', level: 'error' }],
+    log:
+      config.app.isDevelopment
+        ? [
+            { emit: 'event', level: 'query' },
+            { emit: 'event', level: 'error' },
+            { emit: 'event', level: 'warn' },
+          ]
+        : [{ emit: 'event', level: 'error' }],
   });
 };
 
-export const prisma: PrismaClient = global.__prisma ?? createPrismaClient();
+// Singleton pattern — prevent hot-reload from creating multiple instances
+export const prisma: PrismaClient =
+  global.__prisma ?? createPrismaClient();
 
 if (config.app.isDevelopment) {
   global.__prisma = prisma;
+
+  // Log slow queries in development
   (prisma as any).$on('query', (e: any) => {
     if (e.duration > 200) {
       logger.warn(`Slow query (${e.duration}ms): ${e.query}`);
