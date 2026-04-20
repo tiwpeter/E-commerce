@@ -14,9 +14,12 @@
     "prisma:studio": "prisma studio",
     "test": "jest --coverage",
     "lint": "eslint src --ext .ts",
-    "format": "prettier --write \"src/**/*.ts\""
+    "format": "prettier --write \"src/**/*.ts\"",
+    "gen-openapi": "prisma generate && ts-node -P tsconfig.scripts.json scripts/gen-openapi.ts"
+    ,"gen-swagger": "ts-node src/openapi/generate.ts" 
   },
   "dependencies": {
+    "@asteasolutions/zod-to-openapi": "^8.5.0",
     "@prisma/adapter-pg": "^7.7.0",
     "@prisma/client": "^7.7.0",
     "bcryptjs": "^2.4.3",
@@ -35,10 +38,11 @@
     "swagger-ui-express": "^5.0.0",
     "uuid": "^9.0.1",
     "winston": "^3.11.0",
-    "zod": "^3.22.4",
+    "zod": "^4.3.6",
     "zod-prisma-types": "^3.3.11"
   },
   "devDependencies": {
+    "@prisma/internals": "^7.7.0",
     "@types/bcryptjs": "^2.4.6",
     "@types/compression": "^1.7.5",
     "@types/cors": "^2.8.17",

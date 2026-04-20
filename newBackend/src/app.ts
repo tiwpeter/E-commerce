@@ -12,6 +12,9 @@ import { config } from './config/app.config';
 import { morganStream } from './utils/logger';
 //import { swaggerSpec } from './swagger/swagger.config';
 
+import { generateDocument } from './openapi/generate';
+
+
 // Routes
 import  productRouter   from "./modules/product/product.routes";
 /*
@@ -85,9 +88,14 @@ export const createApp = (): Application => {
     });
   });
 */
+  app.use('/docs', swaggerUi.serve, swaggerUi.setup(generateDocument()));
   // ─── API Routes ──────────────────────────────────────────────────
   const prefix = config.app.apiPrefix;
 
+  const allRoutes = require('./routes/index');
+  app.use('/api/v1', allRoutes);
+
+  app.use(`${prefix}/api/products`, productRouter);
   app.use(`${prefix}/api/products`, productRouter);
 /*
   // ─── Error Handling ──────────────────────────────────────────────
