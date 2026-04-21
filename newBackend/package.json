@@ -4,7 +4,7 @@
   "description": "Production-ready E-commerce REST API",
   "main": "dist/server.js",
   "scripts": {
-    "dev": "ts-node-dev --respawn --transpile-only -r tsconfig-paths/register src/server.ts",
+    "dev": "ts-node-dev src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
     "prisma:generate": "prisma generate",
@@ -15,8 +15,7 @@
     "test": "jest --coverage",
     "lint": "eslint src --ext .ts",
     "format": "prettier --write \"src/**/*.ts\"",
-    "gen-openapi": "prisma generate && ts-node -P tsconfig.scripts.json scripts/gen-openapi.ts"
-    ,"gen-swagger": "ts-node src/openapi/generate.ts" 
+    "swagger": "ts-node src/swagger/swagger.ts"
   },
   "dependencies": {
     "@asteasolutions/zod-to-openapi": "^8.5.0",

@@ -2,13 +2,20 @@ import { ProductFilter, CreateProductInput, UpdateProductInput } from "./product
 import { prisma } from "@/prisma/client";
 
 export const productRepository = {
-  /*
-  create(data: CreateProductInput) {
-    return prisma.product.create({
-      data,
-    });
-  },
-*/
+  
+create(data: CreateProductInput) {
+  const { categoryId, ...rest } = data;
+
+  return prisma.product.create({
+    data: {
+      ...rest,
+      category: {
+        connect: { id: categoryId }
+      }
+    }
+  });
+},
+
   update(id: string, data: UpdateProductInput) {
     return prisma.product.update({
       where: { id },
@@ -32,7 +39,7 @@ export const productRepository = {
     const { categoryId, minPrice, maxPrice, isActive, page, limit } = filter;
 
     const where = {
-      ...(categoryId && { categoryId }),
+      ...(categoryId && { categoryId: String(categoryId) }), // ← แปลงเป็น string ถ้า Prisma schema ใช้ String
       ...(typeof isActive === "boolean" && { isActive }),
       ...(minPrice || maxPrice
         ? {

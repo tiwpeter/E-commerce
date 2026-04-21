@@ -4,9 +4,11 @@ export type ProductDTO = Product;
 
 export type CreateProductInput = {
   name: string;
-  description?: string;
-  price: number;
-  categoryId?: string;
+  slug: string;
+  description: string;
+  basePrice: number;
+  sku: string;
+  categoryId: string; // ✅ required
   isActive?: boolean;
 };
 

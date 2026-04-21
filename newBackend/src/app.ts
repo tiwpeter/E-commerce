@@ -1,106 +1,20 @@
 import express, { Application } from 'express';
-import cors from 'cors';
-import helmet from 'helmet';
-import morgan from 'morgan';
-import compression from 'compression';
-import rateLimit from 'express-rate-limit';
-import path from 'path';
 import swaggerUi from 'swagger-ui-express';
+import productRoutes from './modules/product/product.routes'; // ← import ตรงนี้
 
-import { config } from './config/app.config';
-//import { errorHandler, notFoundHandler } from './middlewares/error.middleware';
-import { morganStream } from './utils/logger';
-//import { swaggerSpec } from './swagger/swagger.config';
-
-import { generateDocument } from './openapi/generate';
-
-
-// Routes
-import  productRouter   from "./modules/product/product.routes";
-/*
-import {
-} from './routes/index.routes';
-*/
 export const createApp = (): Application => {
+  const swaggerFile = require('../swagger_output.json');
+
   const app = express();
 
-  // ─── Security ───────────────────────────────────────────────────
-  app.use(
-    helmet({
-      crossOriginEmbedderPolicy: false,
-      contentSecurityPolicy: false, // Configure per needs
-    })
-  );
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: true }));
 
-  app.use(
-    cors({
-      origin: config.cors.origins,
-      credentials: true,
-      methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-      allowedHeaders: ['Content-Type', 'Authorization'],
-    })
-  );
+  // Routes
+  app.use('/api/products', productRoutes); // ← ใช้งาน
 
-  // ─── Global Rate Limiting ────────────────────────────────────────
-  app.use(
-    rateLimit({
-      windowMs: config.rateLimit.windowMs,
-      max: config.rateLimit.max,
-      standardHeaders: true,
-      legacyHeaders: false,
-      message: { success: false, message: 'Too many requests, slow down.' },
-    })
-  );
+  // Swagger UI
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
-  // ─── General Middleware ──────────────────────────────────────────
-  app.use(compression());
-  app.use(express.json({ limit: '10mb' }));
-  app.use(express.urlencoded({ extended: true, limit: '10mb' }));
-  app.use(morgan('combined', { stream: morganStream }));
-
-  // ─── Static Files ────────────────────────────────────────────────
-  app.use('/uploads', express.static(path.resolve(config.upload.dir)));
-/*
-  // ─── Swagger UI ──────────────────────────────────────────────────
-  app.use(
-    '/api-docs',
-    swaggerUi.serve,
-    swaggerUi.setup(swaggerSpec, {
-      customSiteTitle: 'E-Commerce API Docs',
-      customCss: '.swagger-ui .topbar { display: none }',
-      swaggerOptions: {
-        persistAuthorization: true,
-        displayRequestDuration: true,
-      },
-    })
-  );
-
-  // Expose raw spec
-  app.get('/api-docs.json', (_req, res) => res.json(swaggerSpec));
-
-  // ─── Health Check ────────────────────────────────────────────────
-  app.get('/health', (_req, res) => {
-    res.json({
-      status: 'ok',
-      timestamp: new Date().toISOString(),
-      uptime: process.uptime(),
-      env: config.app.env,
-    });
-  });
-*/
-  app.use('/docs', swaggerUi.serve, swaggerUi.setup(generateDocument()));
-  // ─── API Routes ──────────────────────────────────────────────────
-  const prefix = config.app.apiPrefix;
-
-  const allRoutes = require('./routes/index');
-  app.use('/api/v1', allRoutes);
-
-  app.use(`${prefix}/api/products`, productRouter);
-  app.use(`${prefix}/api/products`, productRouter);
-/*
-  // ─── Error Handling ──────────────────────────────────────────────
-  app.use(notFoundHandler);
-  app.use(errorHandler);
-*/
   return app;
 };

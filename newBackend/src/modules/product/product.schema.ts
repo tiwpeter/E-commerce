@@ -4,14 +4,14 @@ export const createProductSchema = z.object({
   name: z.string().min(1),
   description: z.string().optional(),
   price: z.number().positive(),
-  categoryId: z.number().int().optional(),
+  categoryId: z.string().optional(),
   isActive: z.boolean().optional().default(true),
 });
 
 export const updateProductSchema = createProductSchema.partial();
 
 export const productQuerySchema = z.object({
-  categoryId: z.coerce.number().int().optional(),
+  categoryId: z.string().optional(),
   minPrice: z.coerce.number().optional(),
   maxPrice: z.coerce.number().optional(),
   isActive: z.coerce.boolean().optional(),

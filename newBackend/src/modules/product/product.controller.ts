@@ -14,20 +14,20 @@ export const productController = {
   },
 
   async update(req: Request, res: Response) {
-    const id = Number(req.params.id);
+    const id = req.params.id;                        // ← ลบ Number() ออก
     const data = updateProductSchema.parse(req.body);
     const product = await productService.update(id, data);
     res.json(product);
   },
 
   async delete(req: Request, res: Response) {
-    const id = Number(req.params.id);
+    const id = req.params.id;                        // ← ลบ Number() ออก
     await productService.delete(id);
     res.status(204).send();
   },
 
   async getById(req: Request, res: Response) {
-    const id = Number(req.params.id);
+    const id = req.params.id;                        // ← ลบ Number() ออก
     const product = await productService.getById(id);
     res.json(product);
   },
