@@ -9,31 +9,25 @@ declare global {
 }
 
 const createPrismaClient = (): PrismaClient => {
-  const logConfig =
-    config.app.isDevelopment
+  const adapter = new PrismaPg({ connectionString: config.db.url });
+
+  return new PrismaClient({
+    adapter,
+    log: config.app.isDevelopment
       ? [
           { emit: 'event' as const, level: 'query' as const },
           { emit: 'event' as const, level: 'error' as const },
           { emit: 'event' as const, level: 'warn' as const },
         ]
-      : [{ emit: 'event' as const, level: 'error' as const }];
-
-  if (config.prisma.useAdapter) {
-    const adapter = new PrismaPg({ connectionString: config.db.url });
-    return new PrismaClient({ adapter, log: logConfig });
-  }
-
-  return new PrismaClient({ log: logConfig });
+      : [{ emit: 'event' as const, level: 'error' as const }],
+  });
 };
 
-// Singleton pattern — prevent hot-reload from creating multiple instances
-export const prisma: PrismaClient =
-  global.__prisma ?? createPrismaClient();
+export const prisma: PrismaClient = global.__prisma ?? createPrismaClient();
 
 if (config.app.isDevelopment) {
   global.__prisma = prisma;
 
-  // Log slow queries in development
   (prisma as any).$on('query', (e: any) => {
     if (e.duration > 200) {
       logger.warn(`Slow query (${e.duration}ms): ${e.query}`);
@@ -43,9 +37,7 @@ if (config.app.isDevelopment) {
 
 export const connectDatabase = async (): Promise<void> => {
   await prisma.$connect();
-  logger.info(
-    `✅ Database connected ${config.prisma.useAdapter ? '(via PrismaPg adapter)' : '(built-in driver)'}`
-  );
+  logger.info('✅ Database connected (via PrismaPg adapter)');
 };
 
 export const disconnectDatabase = async (): Promise<void> => {

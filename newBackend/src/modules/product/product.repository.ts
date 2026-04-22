@@ -1,5 +1,5 @@
 import { ProductFilter} from "./product.schema";
-import { prisma } from "@/prisma/client";
+import { prisma } from "@/config/database";
 
 export const productRepository = {
   
@@ -31,7 +31,7 @@ export const productRepository = {
         : {}),
     };
 
-    const [items, total] = await prisma.$transaction([
+    const [items, total] = await Promise.all([
       prisma.product.findMany({
         where,
         skip: (page - 1) * limit,
