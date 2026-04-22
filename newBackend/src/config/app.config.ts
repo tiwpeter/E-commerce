@@ -24,6 +24,9 @@ export const config = {
   db: {
     url: requireEnv('DATABASE_URL'),
   },
+  prisma: {
+    useAdapter: optionalEnv('PRISMA_USE_ADAPTER', 'false') === 'true',
+  },
   jwt: {
     secret: requireEnv('JWT_SECRET'),
     expiresIn: optionalEnv('JWT_EXPIRES_IN', '15m'),

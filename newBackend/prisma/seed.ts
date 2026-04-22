@@ -1,6 +1,12 @@
-import { PrismaClient } from '@prisma/client'
+import * as dotenv from 'dotenv';
+dotenv.config();
 
-const prisma = new PrismaClient()
+// import หลัง dotenv.config() เพื่อให้ env โหลดก่อน
+import { PrismaClient } from '@prisma/client';
+import { PrismaPg } from '@prisma/adapter-pg';
+
+const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
+const prisma = new PrismaClient({ adapter });
 
 async function clean() {
   await prisma.variantOptionValue.deleteMany()
