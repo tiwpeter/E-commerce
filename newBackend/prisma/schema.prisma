@@ -10,15 +10,12 @@ datasource db {
 
 generator zod {
   provider = "zod-prisma-types"
-  output   = "./generated/zod" // (Optional) กำหนดโฟลเดอร์ปลายทาง
+  output   = "./generated/zod"
 }
-
 
 // ===========================
 // Enums
 // ===========================
-
-// ─── EXISTING ENUMS (unchanged) ──────────────────────────────────────────────
 
 enum Role {
   ADMIN
@@ -57,8 +54,6 @@ enum ShippingRateType {
 // Models
 // ===========================
 
-// ─── USERS ───────────────────────────────────────────────────────────────────
-
 model User {
   id             String    @id @default(cuid())
   email          String    @unique
@@ -83,8 +78,6 @@ model User {
   @@map("users")
 }
 
-// ─── CATEGORIES ──────────────────────────────────────────────────────────────
-
 model Category {
   id          String     @id @default(cuid())
   name        String     @unique
@@ -106,39 +99,38 @@ model Category {
   @@map("categories")
 }
 
-// ─── PRODUCTS ────────────────────────────────────────────────────────────────
-
 model Product {
   id           String    @id @default(cuid())
   name         String
   slug         String    @unique
   description  String
-  // basePrice = ราคาเริ่มต้น (variant ที่ถูกที่สุด) — อัปเดต auto ผ่าน service
   basePrice    Decimal   @db.Decimal(10, 2)
   comparePrice Decimal?  @db.Decimal(10, 2)
-  sku          String    @unique  // Master SKU (variant มี SKU แยก)
-  weight       Float?            // น้ำหนักเริ่มต้น (กรัม)
+  sku          String    @unique
+  weight       Float?
   isActive     Boolean   @default(true)
   isFeatured   Boolean   @default(false)
-  hasVariants  Boolean   @default(false)  // true = ใช้ variant, false = ใช้ stock ที่ product โดยตรง
-  stock        Int       @default(0)      // ใช้เมื่อ hasVariants = false
+  hasVariants  Boolean   @default(false)
+  stock        Int       @default(0)
   categoryId   String
   category     Category  @relation(fields: [categoryId], references: [id])
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
   deletedAt    DateTime?
 
-  images         ProductImage[]
-  options        ProductOption[]   // เช่น "สี", "ขนาด", "วัสดุ"
-  variants       ProductVariant[]
-  orderItems     OrderItem[]
-  reviews        Review[]
-  cartItems      CartItem[]
+  images     ProductImage[]
+  options    ProductOption[]
+  variants   ProductVariant[]
+  orderItems OrderItem[]
+  reviews    Review[]
+  cartItems  CartItem[]
 
   @@index([slug])
   @@index([categoryId])
   @@index([isActive, isFeatured])
   @@index([basePrice])
+  @@index([isActive, categoryId])    // ← ใหม่
+  @@index([deletedAt])               // ← ใหม่
   @@map("products")
 }
 
@@ -156,25 +148,15 @@ model ProductImage {
   @@map("product_images")
 }
 
-// ─── PRODUCT OPTIONS & VARIANTS ──────────────────────────────────────────────
-// ตัวอย่าง:
-//   ProductOption: { name: "สี" }
-//     OptionValue: { value: "แดง" }, { value: "น้ำเงิน" }
-//   ProductOption: { name: "ขนาด" }
-//     OptionValue: { value: "S" }, { value: "M" }, { value: "L" }
-//
-//   ProductVariant: { sku: "SHIRT-RED-M", price: 590, stock: 10 }
-//     VariantOptionValue: → "แดง", "M"
-
 model ProductOption {
-  id        String         @id @default(cuid())
+  id        String        @id @default(cuid())
   productId String
-  product   Product        @relation(fields: [productId], references: [id], onDelete: Cascade)
-  name      String         // "สี" | "ขนาด" | "วัสดุ" ฯลฯ
-  order     Int            @default(0)  // ลำดับแสดงผล
-  createdAt DateTime       @default(now())
+  product   Product       @relation(fields: [productId], references: [id], onDelete: Cascade)
+  name      String
+  order     Int           @default(0)
+  createdAt DateTime      @default(now())
 
-  values    OptionValue[]
+  values OptionValue[]
 
   @@unique([productId, name])
   @@index([productId])
@@ -185,7 +167,7 @@ model OptionValue {
   id        String        @id @default(cuid())
   optionId  String
   option    ProductOption @relation(fields: [optionId], references: [id], onDelete: Cascade)
-  value     String        // "แดง" | "S" | "ฝ้าย" ฯลฯ
+  value     String
   order     Int           @default(0)
   createdAt DateTime      @default(now())
 
@@ -200,100 +182,90 @@ model ProductVariant {
   id           String    @id @default(cuid())
   productId    String
   product      Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
-  sku          String    @unique           // เช่น "SHIRT-RED-M"
+  sku          String    @unique
   price        Decimal   @db.Decimal(10, 2)
   comparePrice Decimal?  @db.Decimal(10, 2)
   stock        Int       @default(0)
-  weight       Float?                      // น้ำหนัก (กรัม) — override จาก product
-  image        String?                     // รูปเฉพาะ variant
+  weight       Float?
+  image        String?
   isActive     Boolean   @default(true)
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
 
-  variantOption  VariantOptionValue[]
+  variantOption VariantOptionValue[]
   orderItems    OrderItem[]
   cartItems     CartItem[]
 
   @@index([productId])
   @@index([sku])
   @@index([productId, isActive])
+  @@index([stock])                   // ← ใหม่
   @@map("product_variants")
 }
 
-// Join table: variant ↔ option values
 model VariantOptionValue {
-  id              String         @id @default(cuid())
-  variantId       String
-  variant         ProductVariant @relation(fields: [variantId], references: [id], onDelete: Cascade)
-  optionValueId   String
-  optionValue     OptionValue    @relation(fields: [optionValueId], references: [id])
+  id            String         @id @default(cuid())
+  variantId     String
+  variant       ProductVariant @relation(fields: [variantId], references: [id], onDelete: Cascade)
+  optionValueId String
+  optionValue   OptionValue    @relation(fields: [optionValueId], references: [id])
 
   @@unique([variantId, optionValueId])
   @@index([variantId])
   @@map("variant_option_values")
 }
 
-// ─── SHIPPING ─────────────────────────────────────────────────────────────────
-// ShippingZone  → กำหนดพื้นที่ (ทั่วประเทศ, กทม., ต่างจังหวัด ฯลฯ)
-// ShippingRate  → ราคาและเงื่อนไขในแต่ละ zone
-// ShippingMethod → ผู้ให้บริการ เช่น Kerry, Flash, Thailand Post
-
 model ShippingZone {
-  id          String    @id @default(cuid())
-  name        String    @unique   // "ทั่วประเทศ" | "กทม." | "ต่างจังหวัด"
-  countries   String[]  @default(["TH"])
-  isActive    Boolean   @default(true)
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  id        String   @id @default(cuid())
+  name      String   @unique
+  countries String[] @default(["TH"])
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  rates       ShippingRate[]
+  rates ShippingRate[]
 
   @@map("shipping_zones")
 }
 
 model ShippingMethod {
-  id           String    @id @default(cuid())
-  name         String    @unique   // "Kerry Express" | "Flash Express" | "ไปรษณีย์ไทย"
-  code         String    @unique   // "KERRY" | "FLASH" | "THPOST"
-  logo         String?
-  trackingUrl  String?   // "https://th.kerryexpress.com/track/?track={trackingNumber}"
-  isActive     Boolean   @default(true)
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
+  id          String   @id @default(cuid())
+  name        String   @unique
+  code        String   @unique
+  logo        String?
+  trackingUrl String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
-  rates        ShippingRate[]
-  orders       Order[]
+  rates  ShippingRate[]
+  orders Order[]
 
   @@map("shipping_methods")
 }
 
 model ShippingRate {
-  id              String           @id @default(cuid())
-  zoneId          String
-  zone            ShippingZone     @relation(fields: [zoneId], references: [id])
-  methodId        String
-  method          ShippingMethod   @relation(fields: [methodId], references: [id])
-  type            ShippingRateType @default(FLAT)
-  // FLAT: price = ราคาคงที่
-  // FREE: price = 0, minOrderAmount = ยอดขั้นต่ำที่ส่งฟรี (null = ส่งฟรีเสมอ)
-  // WEIGHT: price = ราคาต่อกรัม, basePrice = ค่าบริการเริ่มต้น
-  price           Decimal          @db.Decimal(10, 2)
-  basePrice       Decimal?         @db.Decimal(10, 2)  // สำหรับ WEIGHT: ค่าบริการเริ่มต้น
-  minWeight       Int?             // กรัม
-  maxWeight       Int?             // กรัม (null = ไม่จำกัด)
-  minOrderAmount  Decimal?         @db.Decimal(10, 2)  // ยอดขั้นต่ำส่งฟรี (FREE type)
-  estimatedDays   Int?             // จำนวนวันจัดส่งโดยประมาณ
-  isActive        Boolean          @default(true)
-  createdAt       DateTime         @default(now())
-  updatedAt       DateTime         @updatedAt
+  id             String           @id @default(cuid())
+  zoneId         String
+  zone           ShippingZone     @relation(fields: [zoneId], references: [id])
+  methodId       String
+  method         ShippingMethod   @relation(fields: [methodId], references: [id])
+  type           ShippingRateType @default(FLAT)
+  price          Decimal          @db.Decimal(10, 2)
+  basePrice      Decimal?         @db.Decimal(10, 2)
+  minWeight      Int?
+  maxWeight      Int?
+  minOrderAmount Decimal?         @db.Decimal(10, 2)
+  estimatedDays  Int?
+  isActive       Boolean          @default(true)
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
 
   @@unique([zoneId, methodId])
   @@index([zoneId])
   @@index([methodId])
   @@map("shipping_rates")
 }
-
-// ─── CART ────────────────────────────────────────────────────────────────────
 
 model Cart {
   id        String     @id @default(cuid())
@@ -313,7 +285,7 @@ model CartItem {
   cart      Cart            @relation(fields: [cartId], references: [id], onDelete: Cascade)
   productId String
   product   Product         @relation(fields: [productId], references: [id])
-  variantId String?         // null = ไม่มี variant
+  variantId String?
   variant   ProductVariant? @relation(fields: [variantId], references: [id])
   quantity  Int             @default(1)
   createdAt DateTime        @default(now())
@@ -321,10 +293,9 @@ model CartItem {
 
   @@unique([cartId, productId, variantId])
   @@index([cartId])
+  @@index([productId])               // ← ใหม่
   @@map("cart_items")
 }
-
-// ─── ADDRESSES ───────────────────────────────────────────────────────────────
 
 model Address {
   id           String    @id @default(cuid())
@@ -349,29 +320,27 @@ model Address {
   @@map("addresses")
 }
 
-// ─── ORDERS ──────────────────────────────────────────────────────────────────
-
 model Order {
-  id               String         @id @default(cuid())
-  orderNumber      String         @unique
+  id               String          @id @default(cuid())
+  orderNumber      String          @unique
   userId           String
-  user             User           @relation(fields: [userId], references: [id])
+  user             User            @relation(fields: [userId], references: [id])
   addressId        String
-  address          Address        @relation(fields: [addressId], references: [id])
+  address          Address         @relation(fields: [addressId], references: [id])
   shippingMethodId String?
   shippingMethod   ShippingMethod? @relation(fields: [shippingMethodId], references: [id])
-  status           OrderStatus    @default(PENDING)
-  subtotal         Decimal        @db.Decimal(10, 2)
-  shippingFee      Decimal        @db.Decimal(10, 2) @default(0)
-  discount         Decimal        @db.Decimal(10, 2) @default(0)
-  total            Decimal        @db.Decimal(10, 2)
+  status           OrderStatus     @default(PENDING)
+  subtotal         Decimal         @db.Decimal(10, 2)
+  shippingFee      Decimal         @db.Decimal(10, 2) @default(0)
+  discount         Decimal         @db.Decimal(10, 2) @default(0)
+  total            Decimal         @db.Decimal(10, 2)
   notes            String?
   trackingNumber   String?
   shippedAt        DateTime?
   completedAt      DateTime?
   canceledAt       DateTime?
-  createdAt        DateTime       @default(now())
-  updatedAt        DateTime       @updatedAt
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
 
   items   OrderItem[]
   payment Payment?
@@ -379,31 +348,30 @@ model Order {
   @@index([userId])
   @@index([status])
   @@index([orderNumber])
+  @@index([createdAt])               // ← ใหม่
+  @@index([userId, status])          // ← ใหม่
   @@map("orders")
 }
 
 model OrderItem {
-  id        String          @id @default(cuid())
-  orderId   String
-  order     Order           @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  productId String
-  product   Product         @relation(fields: [productId], references: [id])
-  variantId String?
-  variant   ProductVariant? @relation(fields: [variantId], references: [id])
-  quantity  Int
-  price     Decimal         @db.Decimal(10, 2)   // ราคา ณ เวลาสั่งซื้อ
-  total     Decimal         @db.Decimal(10, 2)
-  // Snapshot ชื่อ/ตัวเลือก ณ เวลาสั่ง (กันข้อมูลเปลี่ยน)
-  productName   String
-  variantLabel  String?     // เช่น "แดง / M"
-  createdAt DateTime        @default(now())
+  id           String          @id @default(cuid())
+  orderId      String
+  order        Order           @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId    String
+  product      Product         @relation(fields: [productId], references: [id])
+  variantId    String?
+  variant      ProductVariant? @relation(fields: [variantId], references: [id])
+  quantity     Int
+  price        Decimal         @db.Decimal(10, 2)
+  total        Decimal         @db.Decimal(10, 2)
+  productName  String
+  variantLabel String?
+  createdAt    DateTime        @default(now())
 
   @@index([orderId])
   @@index([productId])
   @@map("order_items")
 }
-
-// ─── PAYMENTS ────────────────────────────────────────────────────────────────
 
 model Payment {
   id            String        @id @default(cuid())
@@ -422,10 +390,9 @@ model Payment {
 
   @@index([orderId])
   @@index([status])
+  @@index([transactionId])           // ← ใหม่
   @@map("payments")
 }
-
-// ─── REVIEWS ─────────────────────────────────────────────────────────────────
 
 model Review {
   id         String    @id @default(cuid())
@@ -433,7 +400,7 @@ model Review {
   user       User      @relation(fields: [userId], references: [id])
   productId  String
   product    Product   @relation(fields: [productId], references: [id])
-  rating     Int       // 1-5
+  rating     Int
   title      String?
   comment    String?
   isApproved Boolean   @default(false)
@@ -444,5 +411,6 @@ model Review {
   @@unique([userId, productId])
   @@index([productId])
   @@index([rating])
+  @@index([productId, isApproved])   // ← ใหม่
   @@map("reviews")
 }
