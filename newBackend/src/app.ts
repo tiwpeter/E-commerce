@@ -3,7 +3,7 @@ import swaggerUi from 'swagger-ui-express';
 import productRoutes from './modules/product/product.routes'; // ← import ตรงนี้
 
 export const createApp = (): Application => {
-  const swaggerFile = require('../swagger_output.json');
+  const swaggerFile = require('./swagger/swagger_output.json');
 
   const app = express();
 
@@ -11,7 +11,10 @@ export const createApp = (): Application => {
   app.use(express.urlencoded({ extended: true }));
 
   // Routes
-  app.use('/api/products', productRoutes); // ← ใช้งาน
+
+
+  app.use('/api/products', /* #swagger.tags = ['Products'] */ productRoutes);
+
 
   // Swagger UI
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));

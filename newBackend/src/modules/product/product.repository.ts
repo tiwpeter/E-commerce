@@ -1,28 +1,8 @@
-import { ProductFilter, CreateProductInput, UpdateProductInput } from "./product.types";
+import { ProductFilter} from "./product.schema";
 import { prisma } from "@/prisma/client";
 
 export const productRepository = {
   
-create(data: CreateProductInput) {
-  const { categoryId, ...rest } = data;
-
-  return prisma.product.create({
-    data: {
-      ...rest,
-      category: {
-        connect: { id: categoryId }
-      }
-    }
-  });
-},
-
-  update(id: string, data: UpdateProductInput) {
-    return prisma.product.update({
-      where: { id },
-      data,
-    });
-  },
-
   delete(id: string) {
     return prisma.product.delete({
       where: { id },

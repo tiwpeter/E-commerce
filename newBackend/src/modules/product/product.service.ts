@@ -1,14 +1,8 @@
 import { productRepository } from "./product.repository";
-import { CreateProductInput, UpdateProductInput, ProductFilter } from "./product.types";
+import { ProductFilter } from "./product.schema";
 
 export const productService = {
-  create(data: CreateProductInput) {          // ← uncomment
-    return productRepository.create(data);
-  },
-
-  update(id: string, data: UpdateProductInput) {  // ← number → string
-    return productRepository.update(id, data);
-  },
+ 
 
   delete(id: string) {                            // ← number → string
     return productRepository.delete(id);
