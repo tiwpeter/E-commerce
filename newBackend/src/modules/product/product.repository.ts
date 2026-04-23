@@ -37,6 +37,7 @@ export const productRepository = {
         skip: (page - 1) * limit,
         take: limit,
         orderBy: { createdAt: "desc" },
+        include: {images: true}
       }),
       prisma.product.count({ where }),
     ]);

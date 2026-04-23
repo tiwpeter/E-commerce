@@ -1,5 +1,5 @@
 import { z } from "zod"
-import { Product } from "@prisma/client"
+import { Product,ProductImage } from "@prisma/client"
 
 // =============================
 // Query Schema (runtime validation)
@@ -21,4 +21,6 @@ export type ProductFilter = z.infer<typeof productQuerySchema>
 // =============================
 // DTO (DB output)
 // =============================
-export type ProductDTO = Product
+export type ProductDTO = Product & {
+  images: ProductImage[]
+}
