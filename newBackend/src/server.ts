@@ -13,6 +13,7 @@ const startServer = async (): Promise<void> => {
     const server = app.listen(config.app.port, () => {
       logger.info(`🚀 Server running on port ${config.app.port}`);
       logger.info(`📖 API Docs: http://localhost:${config.app.port}/api-docs`);
+      logger.info(`📄 Swagger JSON: http://localhost:${config.app.port}/api-docs.json`); // ✅ เพิ่มบรรทัดนี้
       logger.info(`🌍 Environment: ${config.app.env}`);
       logger.info(`📡 API Prefix: ${config.app.apiPrefix}`);
     });

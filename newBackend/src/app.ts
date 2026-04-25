@@ -18,6 +18,7 @@ export const createApp = (): Application => {
 
   // Swagger UI
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
+  app.get('/api-docs.json', (req, res) => res.json(swaggerFile));
 
   return app;
 };

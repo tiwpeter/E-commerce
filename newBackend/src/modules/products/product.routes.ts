@@ -23,11 +23,27 @@ const router = Router();
 // DELETE /products/:id        — soft delete
 
 router.get("/", productController.getProducts);
-router.get("/slug/:slug", productController.getProductBySlug);
-router.get("/:id", productController.getProductById);
 router.post("/", productController.createProduct);
-router.put("/:id", productController.updateProduct);
-router.delete("/:id", productController.deleteProduct);
+
+router.get("/slug/:slug", 
+  /* #swagger.parameters['slug'] = { in: 'path', required: true, type: 'string' } */
+  productController.getProductBySlug
+);
+
+router.get("/:id", 
+  /* #swagger.parameters['id'] = { in: 'path', required: true, type: 'string' } */
+  productController.getProductById
+);
+
+router.put("/:id", 
+  /* #swagger.parameters['id'] = { in: 'path', required: true, type: 'string' } */
+  productController.updateProduct
+);
+
+router.delete("/:id", 
+  /* #swagger.parameters['id'] = { in: 'path', required: true, type: 'string' } */
+  productController.deleteProduct
+);
 
 router.use(productErrorHandler);
 

@@ -30,6 +30,16 @@
     "application/json"
   ],
   "paths": {
+    "/api-docs.json": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/products/": {
       "get": {
         "description": "",
@@ -50,7 +60,18 @@
     },
     "/api/products/slug/{slug}": {
       "get": {
+        "tags": [
+          "Products"
+        ],
         "description": "",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "default": {
             "description": ""
@@ -60,7 +81,18 @@
     },
     "/api/products/{id}": {
       "get": {
+        "tags": [
+          "Products"
+        ],
         "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "default": {
             "description": ""
@@ -68,7 +100,18 @@
         }
       },
       "put": {
+        "tags": [
+          "Products"
+        ],
         "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "default": {
             "description": ""
@@ -76,7 +119,18 @@
         }
       },
       "delete": {
+        "tags": [
+          "Products"
+        ],
         "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "default": {
             "description": ""
