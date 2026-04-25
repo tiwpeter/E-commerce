@@ -1,5 +1,5 @@
 // src/lib/axios.ts
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 
 export const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -10,7 +10,6 @@ export const api = axios.create({
 // Attach access token
 api.interceptors.request.use((config) => {
   if (typeof window !== 'undefined') {
-    // อ่าน token จาก zustand store (ตัวอย่าง — ปรับตาม authStore)
     const raw = localStorage.getItem('auth-storage');
     if (raw) {
       const parsed = JSON.parse(raw);
@@ -20,3 +19,8 @@ api.interceptors.request.use((config) => {
   }
   return config;
 });
+
+// ✅ เพิ่มตรงนี้ — orval ต้องการฟังก์ชันนี้
+export const customAxios = <T>(config: AxiosRequestConfig): Promise<T> => {
+  return api(config).then((res) => res.data);
+};
