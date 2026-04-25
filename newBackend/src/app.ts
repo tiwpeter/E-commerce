@@ -1,6 +1,6 @@
 import express, { Application } from 'express';
 import swaggerUi from 'swagger-ui-express';
-import productRoutes from './modules/product/product.routes'; // ← import ตรงนี้
+import productRoutes from './modules/products/product.routes'; // ← import ตรงนี้
 
 export const createApp = (): Application => {
   const swaggerFile = require('./swagger/swagger_output.json');

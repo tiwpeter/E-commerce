@@ -3,13 +3,13 @@
 // ============================================================
 
 import { Router } from "express";
-import { PrismaClient } from "@prisma/client";
 import { ProductRepository } from "./product.repository";
 import { ProductService } from "./product.service";
 import { ProductController, productErrorHandler } from "./product.controller";
+import {prisma} from "@/config/database";  // ← import จากที่เดียว
 
-const db = new PrismaClient();
-const productRepository = new ProductRepository(db);
+
+const productRepository = new ProductRepository(prisma);
 const productService = new ProductService(productRepository);
 const productController = new ProductController(productService);
 

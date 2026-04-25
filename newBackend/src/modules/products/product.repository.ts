@@ -91,7 +91,7 @@ export class ProductRepository {
         variants: {
           where: { isActive: true },
           include: {
-            optionValues: {
+            variantOption: {
               include: { optionValue: true },
             },
           },
@@ -115,7 +115,7 @@ export class ProductRepository {
         variants: {
           where: { isActive: true },
           include: {
-            optionValues: {
+            variantOption: {
               include: { optionValue: true },
             },
           },

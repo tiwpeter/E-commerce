@@ -180,3 +180,15 @@
 {"level":"warn","message":"Slow query (2665.1436000000012ms): SELECT \"public\".\"products\".\"id\", \"public\".\"products\".\"name\", \"public\".\"products\".\"slug\", \"public\".\"products\".\"description\", \"public\".\"products\".\"basePrice\", \"public\".\"products\".\"comparePrice\", \"public\".\"products\".\"sku\", \"public\".\"products\".\"weight\", \"public\".\"products\".\"isActive\", \"public\".\"products\".\"isFeatured\", \"public\".\"products\".\"hasVariants\", \"public\".\"products\".\"stock\", \"public\".\"products\".\"categoryId\", \"public\".\"products\".\"createdAt\", \"public\".\"products\".\"updatedAt\", \"public\".\"products\".\"deletedAt\" FROM \"public\".\"products\" WHERE 1=1 ORDER BY \"public\".\"products\".\"createdAt\" DESC LIMIT $1 OFFSET $2","service":"ecommerce-api","timestamp":"2026-04-23T03:03:48.190Z"}
 {"level":"warn","message":"Slow query (269.34490000000005ms): SELECT \"public\".\"product_images\".\"id\", \"public\".\"product_images\".\"url\", \"public\".\"product_images\".\"alt\", \"public\".\"product_images\".\"isPrimary\", \"public\".\"product_images\".\"order\", \"public\".\"product_images\".\"productId\", \"public\".\"product_images\".\"createdAt\" FROM \"public\".\"product_images\" WHERE \"public\".\"product_images\".\"productId\" IN ($1) OFFSET $2","service":"ecommerce-api","timestamp":"2026-04-23T03:03:48.462Z"}
 {"level":"info","message":"SIGINT received. Starting graceful shutdown...","service":"ecommerce-api","timestamp":"2026-04-23T03:04:29.912Z"}
+{"level":"info","message":"✅ Database connected (via PrismaPg adapter)","service":"ecommerce-api","timestamp":"2026-04-25T05:14:54.486Z"}
+{"level":"info","message":"🚀 Server running on port 5000","service":"ecommerce-api","timestamp":"2026-04-25T05:14:54.497Z"}
+{"level":"info","message":"📖 API Docs: http://localhost:5000/api-docs","service":"ecommerce-api","timestamp":"2026-04-25T05:14:54.498Z"}
+{"level":"info","message":"🌍 Environment: development","service":"ecommerce-api","timestamp":"2026-04-25T05:14:54.502Z"}
+{"level":"info","message":"📡 API Prefix: /api/v1","service":"ecommerce-api","timestamp":"2026-04-25T05:14:54.502Z"}
+{"level":"info","message":"SIGINT received. Starting graceful shutdown...","service":"ecommerce-api","timestamp":"2026-04-25T05:14:54.669Z"}
+{"level":"info","message":"✅ Database connected (via PrismaPg adapter)","service":"ecommerce-api","timestamp":"2026-04-25T05:15:34.329Z"}
+{"level":"info","message":"🚀 Server running on port 5000","service":"ecommerce-api","timestamp":"2026-04-25T05:15:34.342Z"}
+{"level":"info","message":"📖 API Docs: http://localhost:5000/api-docs","service":"ecommerce-api","timestamp":"2026-04-25T05:15:34.343Z"}
+{"level":"info","message":"🌍 Environment: development","service":"ecommerce-api","timestamp":"2026-04-25T05:15:34.343Z"}
+{"level":"info","message":"📡 API Prefix: /api/v1","service":"ecommerce-api","timestamp":"2026-04-25T05:15:34.343Z"}
+{"level":"info","message":"SIGINT received. Starting graceful shutdown...","service":"ecommerce-api","timestamp":"2026-04-25T05:16:34.367Z"}
