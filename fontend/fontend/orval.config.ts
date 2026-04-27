@@ -1,29 +1,24 @@
-import { defineConfig } from "orval";
+import { defineConfig } from 'orval';
 
 export default defineConfig({
-  // "demoApi" คือชื่อ output group (ตั้งเองได้)
-  demoApi: {
+  shopApi: {
     input: {
-      // ชี้ไปที่ swagger.json ของ backend
-      target: "http://localhost:5000/api-docs.json",
+      target: 'http://localhost:5000/api-docs.json',
     },
     output: {
-      // โหมด "react-query" = Orval จะ generate TanStack Query hooks ให้อัตโนมัติ
-      mode: "tags-split",          // แยกไฟล์ตาม tag (Todos, Users)
-      target: "./src/api",         // โฟลเดอร์ output
-      schemas: "./src/api/model",  // โฟลเดอร์เก็บ TypeScript types
-      client: "react-query",       // ใช้ TanStack Query
-      httpClient: "axios",         // ใช้ axios เป็น HTTP client
+      mode: 'tags-split',          // แยกไฟล์ตาม tag เช่น products.ts, categories.ts
+      target: './src/api',         // hooks + service functions ไปที่นี่
+      schemas: './src/api/model',  // TypeScript types ไปที่นี่
+      client: 'react-query',       // generate TanStack Query hooks
+      httpClient: 'axios',
       override: {
         mutator: {
-          // custom axios instance (ตั้ง baseURL ที่นี่)
-          path: "./app/lib/axios.ts",,
-          name: "customAxios",
+          path: './src/lib/axios.ts',  // ✅ แก้จาก ./app/lib/axios.ts
+          name: 'customAxios',
         },
         query: {
           useQuery: true,
           useMutation: true,
-          // signal สำหรับ abort request
           signal: true,
         },
       },
