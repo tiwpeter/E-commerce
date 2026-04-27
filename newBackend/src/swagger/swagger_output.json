@@ -42,6 +42,9 @@
     },
     "/api/products/": {
       "get": {
+        "tags": [
+          "Products"
+        ],
         "description": "",
         "responses": {
           "default": {
@@ -50,6 +53,9 @@
         }
       },
       "post": {
+        "tags": [
+          "Products"
+        ],
         "description": "",
         "responses": {
           "default": {
