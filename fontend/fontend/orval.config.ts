@@ -3,7 +3,7 @@ import { defineConfig } from 'orval';
 export default defineConfig({
   shopApi: {
     input: {
-      target: 'http://localhost:5000/api-docs.json',
+      target: process.env.ORVAL_API_SPEC_URL ?? 'http://localhost:5000/api-docs.json',
     },
     output: {
       mode: 'tags-split',          // แยกไฟล์ตาม tag เช่น products.ts, categories.ts
