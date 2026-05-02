@@ -12,9 +12,7 @@ export default function ProductList() {
       <div className="flex gap-4 overflow-x-auto">
         {data?.data?.map((p) => (
           <div key={p.id}>
-            <img src={p.image} alt={p.name} />
             <p>{p.name}</p>
-            <p>{p.price}</p>
           </div>
         ))}
       </div>
