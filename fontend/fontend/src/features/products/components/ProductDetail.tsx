@@ -1,97 +1,27 @@
 'use client'
 
-import { useState } from 'react'
-import { useGetApiProductsSlugSlug  } from '@/api/generated/products/products'
-import { usePostApiCartItems } from '@/api/generated/cart/cart'
-import type { ProductVariant, ProductOption } from '@/api/generated/model'
+import { useProductDetail } from '@/features/products/hooks/useProductDetail'
+import type { ProductOption } from '@/api/generated/model'
+
 
 interface ProductDetailProps {
   slug: string
 }
 
 export default function ProductDetail({ slug }: ProductDetailProps) {
-  const { data, isLoading, isError } = useGetApiProductsSlugSlug(slug)
+    const {
+    product, isLoading, isError,
+    sortedImages, selectedImage, setSelectedImage,
+    selectedOptions, selectedVariant,
+    handleOptionSelect, handleSelectVariantFromTable,
+    displayPrice, displayComparePrice, displayStock,
+    isInStock, discountPercent,
+    quantity, setQuantity,
+    allOptionsSelected, onAddToCart, isPending,
+  } = useProductDetail(slug)
 
-  const [selectedImage, setSelectedImage] = useState(0)
-  const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>({})
-  const [quantity, setQuantity] = useState(1)
-const { mutate: addToCart, isPending } = usePostApiCartItems()
-
-  if (isLoading) {
-    return <ProductDetailSkeleton />
-  }
-
-  if (isError || !data?.data) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-2xl font-semibold text-gray-900 mb-2">Product not found</p>
-          <p className="text-gray-500">The product you're looking for doesn't exist.</p>
-        </div>
-      </div>
-    )
-  }
-
-  const product = data.data
-  const images = product.images.length > 0 ? product.images : []
-  const primaryImage = images.find((img) => img.isPrimary) || images[0]
-  const sortedImages = primaryImage
-    ? [primaryImage, ...images.filter((img) => img.id !== primaryImage.id)]
-    : images
-
-  // Find matching variant based on selected options
-  const getSelectedVariant = (): ProductVariant | null => {
-    if (!product.hasVariants || product.variants.length === 0) return null
-
-    return (
-      product.variants.find((variant) => {
-        return variant.variantOption.every((vo) => {
-          const optionId = vo.optionValue.optionId
-          const option = product.options.find((o) => o.id === optionId)
-          if (!option) return false
-          return selectedOptions[option.name] === vo.optionValue.value
-        })
-      }) || null
-    )
-  }
-
-  const selectedVariant = getSelectedVariant()
-console.log('1. selectedOptions:', selectedOptions)
-console.log('2. selectedVariant:', selectedVariant)
-console.log('variantId:', selectedVariant?.id)
-
-  const displayPrice = selectedVariant
-    ? selectedVariant.price
-    : product.basePrice
-
-  const displayComparePrice = selectedVariant
-    ? selectedVariant.comparePrice
-    : product.comparePrice
-
-  const displayStock = selectedVariant
-    ? selectedVariant.stock
-    : product.stock
-
-  const isInStock = displayStock > 0
-
-  const discountPercent =
-    displayComparePrice
-      ? Math.round(
-          ((parseFloat(displayComparePrice) - parseFloat(displayPrice)) /
-            parseFloat(displayComparePrice)) *
-            100
-        )
-      : null
-
-  const handleOptionSelect = (optionName: string, value: string) => {
-    setSelectedOptions((prev) => ({ ...prev, [optionName]: value }))
-  }
-
-  const allOptionsSelected =
-    !product.hasVariants ||
-    product.options.every((opt) => selectedOptions[opt.name])
-
-
+  if (isLoading) return <ProductDetailSkeleton />
+  if (isError || !product) return (/* error UI */)
 
   return (
     <div className="min-h-screen bg-white">
@@ -332,16 +262,7 @@ console.log('variantId:', selectedVariant?.id)
                             ? 'bg-white hover:bg-gray-50'
                             : 'bg-gray-50/50 hover:bg-gray-100'
                         }`}
-                        onClick={() => {
-                          const newOptions: Record<string, string> = {}
-                          variant.variantOption.forEach((vo) => {
-                            const option = product.options.find(
-                              (o) => o.id === vo.optionValue.optionId
-                            )
-                            if (option) newOptions[option.name] = vo.optionValue.value
-                          })
-                          setSelectedOptions(newOptions)
-                        }}
+                        onClick={() => handleSelectVariantFromTable(variant.id)}
                       >
                         <td className={`px-5 py-3.5 font-mono text-xs ${isSelected ? 'text-gray-300' : 'text-gray-500'}`}>
                           {variant.sku}
