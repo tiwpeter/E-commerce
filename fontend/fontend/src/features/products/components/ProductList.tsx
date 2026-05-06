@@ -1,10 +1,10 @@
 'use client'
 
-import { useGetProducts } from '@/api/generated/products/products'
+import { useGetApiProducts } from '@/api/generated/products/products'
 
 export default function ProductList() {
   // ดึงจาก cache ทันที ไม่ fetch ซ้ำ
-  const { data } = useGetProducts()
+  const { data } = useGetApiProducts()
 
   return (
     <section>
