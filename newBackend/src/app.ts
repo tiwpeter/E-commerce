@@ -1,19 +1,32 @@
 import express, { Application } from 'express';
 import swaggerUi from 'swagger-ui-express';
 import productRoutes from './modules/products/product.routes'; // ← import ตรงนี้
+import cartRouter from './modules/cart/cart.routes'; 
+
+import cors from 'cors';
+import { config } from './config/app.config';
 
 export const createApp = (): Application => {
   const swaggerFile = require('./swagger/swagger_output.json');
 
   const app = express();
 
+  // Cor
+  app.use(
+    cors({
+      origin: config.cors.origins,
+      credentials: true,
+      methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+      allowedHeaders: ['Content-Type', 'Authorization'],
+    })
+  );
+
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
   // Routes
-
-
-  app.use('/api/products', /* #swagger.tags = ['Products'] */ productRoutes);
+  app.use('/api/products', productRoutes);
+  app.use('/api/cart', cartRouter);
 
 
   // Swagger UI

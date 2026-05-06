@@ -69,6 +69,7 @@
         "tags": [
           "Products"
         ],
+        "summary": "Get product by slug",
         "description": "",
         "parameters": [
           {
@@ -86,25 +87,6 @@
       }
     },
     "/api/products/{id}": {
-      "get": {
-        "tags": [
-          "Products"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      },
       "put": {
         "tags": [
           "Products"
@@ -142,6 +124,137 @@
             "description": ""
           }
         }
+      }
+    },
+    "/api/cart/": {
+      "get": {
+        "tags": [
+          "Cart"
+        ],
+        "summary": "Get current user cart",
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Cart"
+        ],
+        "summary": "Clear all items from cart",
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/cart/items": {
+      "post": {
+        "tags": [
+          "Cart"
+        ],
+        "summary": "Add item to cart",
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "productId": {
+                  "type": "string",
+                  "example": "abc123"
+                },
+                "variantId": {
+                  "type": "string",
+                  "example": "var123"
+                },
+                "quantity": {
+                  "type": "number",
+                  "example": 1
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/cart/items/{cartItemId}": {
+      "put": {
+        "tags": [
+          "Cart"
+        ],
+        "summary": "Update cart item quantity",
+        "description": "",
+        "parameters": [
+          {
+            "name": "cartItemId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Cart"
+        ],
+        "summary": "Remove item from cart",
+        "description": "",
+        "parameters": [
+          {
+            "name": "cartItemId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     }
   }

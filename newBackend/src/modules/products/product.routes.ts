@@ -32,17 +32,19 @@ router.post("/",
   productController.createProduct
 );
 
-router.get("/slug/:slug", 
-  /* #swagger.tags = ['Products'] */
-  /* #swagger.parameters['slug'] = { in: 'path', required: true, type: 'string' } */
+
+router.get("/slug/:slug",
+  /* #swagger.tags = ['Products']
+     #swagger.summary = 'Get product by slug'
+     #swagger.parameters['slug'] = {
+       in: 'path',
+       required: true,
+       type: 'string'
+     }
+  */
   productController.getProductBySlug
 );
 
-router.get("/:id", 
-  /* #swagger.tags = ['Products'] */
-  /* #swagger.parameters['id'] = { in: 'path', required: true, type: 'string' } */
-  productController.getProductById
-);
 
 router.put("/:id", 
   /* #swagger.tags = ['Products'] */
