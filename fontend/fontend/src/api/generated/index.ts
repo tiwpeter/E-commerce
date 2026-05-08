@@ -1,4 +1,5 @@
 export * from './cart'
+export * from './categories'
 export * from './default'
 export * from './model'
 export * from './product-images'

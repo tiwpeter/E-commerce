@@ -21,7 +21,7 @@ export default function ProductDetail({ slug }: ProductDetailProps) {
   } = useProductDetail(slug)
 
   if (isLoading) return <ProductDetailSkeleton />
-  if (isError || !product) return (/* error UI */)
+  //if (isError || !product) return (/* error UI */)
 
   return (
     <div className="min-h-screen bg-white">

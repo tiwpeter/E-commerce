@@ -1,3 +1,4 @@
+//products/[slug]/page.tsx 
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query'
 import { getApiProductsSlugSlug, getGetApiProductsSlugSlugQueryKey } from '@/api/generated/products/products'
 import ProductDetail from '@/features/products/components/ProductDetail'
