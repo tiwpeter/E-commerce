@@ -10,7 +10,7 @@ import type {
 } from "./products.schema";
 
 export interface ProductFilters {
-  categoryId?: string;
+  categorySlug?: string;
   isActive?: boolean;
   isFeatured?: boolean;
   search?: string;
@@ -41,7 +41,7 @@ export class ProductRepository {
 
     const where = {
       deletedAt: null,
-      ...(filters.categoryId && { categoryId: filters.categoryId }),
+      ...(filters.categorySlug && { categoryId: filters.categorySlug }),
       ...(filters.isActive !== undefined && { isActive: filters.isActive }),
       ...(filters.isFeatured !== undefined && { isFeatured: filters.isFeatured }),
       ...(filters.search && {
