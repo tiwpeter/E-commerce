@@ -1,6 +1,7 @@
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query'
 import { getApiProducts, getGetApiProductsQueryKey } from '@/api/generated/products/products'
 import ProductList from '@/features/products/components/ProductList'
+import CategoryBar from '@/features/categories/components/CategoryBar'
 
 export default async function HomePage() {
   const queryClient = new QueryClient()
@@ -12,6 +13,7 @@ export default async function HomePage() {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
+      <CategoryBar/>
       <ProductList />
     </HydrationBoundary>
   )
