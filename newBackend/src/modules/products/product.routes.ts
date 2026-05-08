@@ -23,7 +23,35 @@ const router = Router();
 // DELETE /products/:id        — soft delete
 
 router.get("/", 
-  /* #swagger.tags = ['Products'] */
+  /* #swagger.tags = ['Products'] 
+     #swagger.parameters['categorySlug'] = {
+       in: 'query',
+       type: 'string',
+       description: 'Filter by category slug'
+     }
+     #swagger.parameters['search'] = {
+       in: 'query',
+       type: 'string'
+     }
+     #swagger.parameters['isActive'] = {
+       in: 'query',
+       type: 'boolean'
+     }
+     #swagger.parameters['isFeatured'] = {
+       in: 'query',
+       type: 'boolean'
+     }
+     #swagger.parameters['page'] = {
+       in: 'query',
+       type: 'integer',
+       default: 1
+     }
+     #swagger.parameters['limit'] = {
+       in: 'query',
+       type: 'integer',
+       default: 20
+     }
+  */
   productController.getProducts
 );
 

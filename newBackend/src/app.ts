@@ -1,6 +1,8 @@
 import express, { Application } from 'express';
 import swaggerUi from 'swagger-ui-express';
-import productRoutes from './modules/products/product.routes'; // ← import ตรงนี้
+import productRoutes from './modules/products/product.routes'; 
+import categoryRoutes from './modules/category/category.routes';
+
 import cartRouter from './modules/cart/cart.routes'; 
 
 import cors from 'cors';
@@ -27,7 +29,7 @@ export const createApp = (): Application => {
   // Routes
   app.use('/api/products', productRoutes);
   app.use('/api/cart', cartRouter);
-
+  app.use('/api/category', categoryRoutes);
 
   // Swagger UI
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
