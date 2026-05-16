@@ -88,4 +88,5 @@ router.delete("/:id",
 
 router.use(productErrorHandler);
 
+export { productService };  // ← เพิ่ม
 export default router;

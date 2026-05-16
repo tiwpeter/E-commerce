@@ -1,153 +1,154 @@
-import { PrismaClient } from '@prisma/client';
-import { AddToCartDto, CartDto, UpdateCartItemDto } from './cart.dto';
-import {
-  CartItemNotFoundError,
-  InsufficientStockError,
-  ProductNotFoundError,
-  ProductUnavailableError,
-  VariantNotFoundError,
-  VariantRequiredError,
-  VariantUnavailableError,
-} from './cart.errors';
-import { mapCart } from './cart.mapper';
-import { CartRepository } from './cart.repository';
+import { randomBytes } from "crypto";
+import type { Cart, CartItem, AddToCartInput, UpdateCartItemInput } from "./cart.schema";
+
+// ============================================================
+// Minimal ProductService interface (inject real one)
+// ============================================================
+
+export interface IProductService {
+  getProductById(id: string): Promise<{ id: string; name: string; basePrice: number | string }>;
+}
+
+// ============================================================
+// Custom Errors
+// ============================================================
+
+export class CartNotFoundError extends Error {
+  constructor(userId: string) {
+    super(`Cart not found for user: ${userId}`);
+    this.name = "CartNotFoundError";
+  }
+}
+
+export class CartItemNotFoundError extends Error {
+  constructor(productId: string) {
+    super(`Cart item not found: ${productId}`);
+    this.name = "CartItemNotFoundError";
+  }
+}
+
+export class ProductUnavailableError extends Error {
+  constructor(productId: string) {
+    super(`Product unavailable: ${productId}`);
+    this.name = "ProductUnavailableError";
+  }
+}
+
+// ============================================================
+// In-Memory Store
+// ============================================================
+
+const store = new Map<string, Cart>(); // key = userId
+
+function generateId(): string {
+  return randomBytes(10).toString("base64url");
+}
+
+function getOrCreateCart(userId: string): Cart {
+  if (!store.has(userId)) {
+    const now = new Date();
+    store.set(userId, { id: generateId(), userId, items: [], createdAt: now, updatedAt: now });
+  }
+  return store.get(userId)!;
+}
+
+// ============================================================
+// CartService
+// ============================================================
 
 export class CartService {
-  private readonly repo: CartRepository;
+  constructor(private readonly productService: IProductService) {}
 
-  constructor(private readonly prisma: PrismaClient) {
-    this.repo = new CartRepository(prisma);
+  /** Get cart for a user (auto-create if not exists) */
+  async getCart(userId: string): Promise<Cart> {
+    return getOrCreateCart(userId);
   }
 
-  // ─── Get cart ────────────────────────────────────────────────────────────
+  /** Add item — calls ProductService to validate product exists */
+  async addItem(userId: string, data: AddToCartInput): Promise<Cart> {
+    // Validate product exists via ProductService
+    let product: { id: string; name: string; basePrice: number | string };
+    try {
+      product = await this.productService.getProductById(data.productId);
+    } catch {
+      throw new ProductUnavailableError(data.productId);
+    }
 
-  async getCart(userId: string): Promise<CartDto> {
-    const cart = await this.repo.findOrCreate(userId);
-    return mapCart(cart);
+    const cart = getOrCreateCart(userId);
+    const key = `${data.productId}:${data.variantId ?? ""}`;
+
+    const existingIndex = cart.items.findIndex(
+      (i) => i.productId === data.productId && i.variantId === (data.variantId ?? null)
+    );
+
+    const now = new Date();
+
+    if (existingIndex >= 0) {
+      // Increment quantity
+      cart.items[existingIndex].quantity += data.quantity;
+      cart.items[existingIndex].updatedAt = now;
+    } else {
+      const newItem: CartItem = {
+        id: generateId(),
+        productId: data.productId,
+        variantId: data.variantId ?? null,
+        quantity: data.quantity,
+        productName: product.name,
+        price: Number(product.basePrice),
+        createdAt: now,
+        updatedAt: now,
+      };
+      cart.items.push(newItem);
+    }
+
+    cart.updatedAt = now;
+    store.set(userId, cart);
+    return cart;
   }
 
-  // ─── Add item ────────────────────────────────────────────────────────────
+  /** Update quantity — quantity=0 removes the item */
+  async updateItem(userId: string, productId: string, data: UpdateCartItemInput): Promise<Cart> {
+    const cart = store.get(userId);
+    if (!cart) throw new CartNotFoundError(userId);
 
-  async addItem(userId: string, dto: AddToCartDto): Promise<CartDto> {
-    const { productId, variantId = null, quantity } = dto;
+    const index = cart.items.findIndex((i) => i.productId === productId);
+    if (index < 0) throw new CartItemNotFoundError(productId);
 
-    // 1. Validate product
-    const product = await this.prisma.product.findFirst({
-      where: { id: productId, deletedAt: null },
-    });
-    if (!product) throw new ProductNotFoundError(productId);
-    if (!product.isActive) throw new ProductUnavailableError();
+    const now = new Date();
 
-    // 2. Require variant when product has variants
-    if (product.hasVariants && !variantId) {
-      throw new VariantRequiredError();
+    if (data.quantity === 0) {
+      cart.items.splice(index, 1);
+    } else {
+      cart.items[index].quantity = data.quantity;
+      cart.items[index].updatedAt = now;
     }
 
-    // 3. Validate variant
-    let effectiveStock = product.stock;
-    if (variantId) {
-      const variant = await this.prisma.productVariant.findFirst({
-        where: { id: variantId, productId },
-      });
-      if (!variant) throw new VariantNotFoundError(variantId);
-      if (!variant.isActive) throw new VariantUnavailableError();
-      effectiveStock = variant.stock;
-    }
-
-    // 4. Stock check — account for items already in cart
-    const cart = await this.repo.findOrCreate(userId);
-    const existingItem = await this.repo.findItem(cart.id, productId, variantId);
-    const alreadyInCart = existingItem?.quantity ?? 0;
-    const requested = alreadyInCart + quantity;
-
-    if (requested > effectiveStock) {
-      throw new InsufficientStockError(Math.max(0, effectiveStock - alreadyInCart));
-    }
-
-    // 5. Upsert
-    await this.repo.upsertItem(cart.id, productId, variantId, quantity);
-    await this.repo.touch(cart.id);
-
-    const updated = await this.repo.reload(cart.id);
-    return mapCart(updated);
+    cart.updatedAt = now;
+    store.set(userId, cart);
+    return cart;
   }
 
-  // ─── Update quantity ──────────────────────────────────────────────────────
-
-  async updateItem(
-    userId: string,
-    cartItemId: string,
-    dto: UpdateCartItemDto,
-  ): Promise<CartDto> {
-    const cart = await this.repo.findOrCreate(userId);
-
-    const item = await this.repo.findItemById(cartItemId, cart.id);
-    if (!item) throw new CartItemNotFoundError();
-
-    // quantity 0 = remove
-    if (dto.quantity === 0) {
-      await this.repo.removeItem(cartItemId);
-      await this.repo.touch(cart.id);
-      const updated = await this.repo.reload(cart.id);
-      return mapCart(updated);
-    }
-
-    // Stock check
-    const stock = await this.getEffectiveStock(item.productId, item.variantId);
-    if (dto.quantity > stock) {
-      throw new InsufficientStockError(stock);
-    }
-
-    await this.repo.updateItemQuantity(cartItemId, dto.quantity);
-    await this.repo.touch(cart.id);
-
-    const updated = await this.repo.reload(cart.id);
-    return mapCart(updated);
+  /** Remove single item */
+  async removeItem(userId: string, productId: string): Promise<Cart> {
+    return this.updateItem(userId, productId, { quantity: 0 });
   }
 
-  // ─── Remove item ──────────────────────────────────────────────────────────
+  /** Clear entire cart */
+  async clearCart(userId: string): Promise<Cart> {
+    const cart = store.get(userId);
+    if (!cart) throw new CartNotFoundError(userId);
 
-  async removeItem(userId: string, cartItemId: string): Promise<CartDto> {
-    const cart = await this.repo.findOrCreate(userId);
-
-    const item = await this.repo.findItemById(cartItemId, cart.id);
-    if (!item) throw new CartItemNotFoundError();
-
-    await this.repo.removeItem(cartItemId);
-    await this.repo.touch(cart.id);
-
-    const updated = await this.repo.reload(cart.id);
-    return mapCart(updated);
+    cart.items = [];
+    cart.updatedAt = new Date();
+    store.set(userId, cart);
+    return cart;
   }
 
-  // ─── Clear cart ───────────────────────────────────────────────────────────
-
-  async clearCart(userId: string): Promise<CartDto> {
-    const cart = await this.repo.findOrCreate(userId);
-    await this.repo.clearCart(cart.id);
-    await this.repo.touch(cart.id);
-
-    const updated = await this.repo.reload(cart.id);
-    return mapCart(updated);
-  }
-
-  // ─── Helpers ──────────────────────────────────────────────────────────────
-
-  private async getEffectiveStock(
-    productId: string,
-    variantId: string | null,
-  ): Promise<number> {
-    if (variantId) {
-      const variant = await this.prisma.productVariant.findUnique({
-        where: { id: variantId },
-        select: { stock: true },
-      });
-      return variant?.stock ?? 0;
-    }
-    const product = await this.prisma.product.findUnique({
-      where: { id: productId },
-      select: { stock: true },
-    });
-    return product?.stock ?? 0;
+  /** Summary: total items count + total price */
+  async getCartSummary(userId: string): Promise<{ itemCount: number; total: number }> {
+    const cart = getOrCreateCart(userId);
+    const itemCount = cart.items.reduce((sum, i) => sum + i.quantity, 0);
+    const total = cart.items.reduce((sum, i) => sum + (i.price ?? 0) * i.quantity, 0);
+    return { itemCount, total };
   }
 }
