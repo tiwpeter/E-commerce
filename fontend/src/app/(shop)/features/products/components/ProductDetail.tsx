@@ -17,7 +17,7 @@ export default function ProductDetail({ slug }: ProductDetailProps) {
     displayPrice, displayComparePrice, displayStock,
     isInStock, //discountPercent,
     quantity, setQuantity,
-    allOptionsSelected, onAddToCart, //isPending,
+    allOptionsSelected, onAddToCart, isAddingToCart,
   } = useProductDetail(slug)
 
   if (isLoading) return <ProductDetailSkeleton />
@@ -195,13 +195,16 @@ export default function ProductDetail({ slug }: ProductDetailProps) {
 
               {/* Add to Cart Button */}
               <button
-                disabled={!isInStock || !allOptionsSelected}
+                onClick={onAddToCart}
+                disabled={!isInStock || !allOptionsSelected|| isAddingToCart}
                 className="flex-1 py-3.5 px-6 bg-gray-900 text-white rounded-xl font-semibold text-sm hover:bg-gray-800 active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-150 shadow-sm"
               >
                 {!isInStock
                   ? 'Out of Stock'
                   : !allOptionsSelected
                   ? 'Select Options'
+                  : isAddingToCart
+                  ? 'Adding...'
                   : 'Add to Cart'}
               </button>
             </div>

@@ -1,6 +1,7 @@
 import { useState, useMemo, useCallback } from 'react'
 import { useGetProductsSlugSlug } from '@/api/generated/products/products'
 import type { ProductVariant } from '@/api/generated/model'
+import { usePostApiCartItems } from '@/api/generated/cart/cart'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -12,6 +13,9 @@ export function useProductDetail(slug: string) {
   // ── Data fetching ──────────────────────────────────────────────────────────
   const { data, isLoading, isError } = useGetProductsSlugSlug(slug)
   const product = data?.data
+
+  // เพิ่ม cart mutation
+  const { mutate: addToCart, isPending: isAddingToCart } = usePostApiCartItems()
 
   // ── UI state ───────────────────────────────────────────────────────────────
   const [selectedImage, setSelectedImage] = useState(0)
@@ -151,9 +155,15 @@ export function useProductDetail(slug: string) {
 
   const onAddToCart = useCallback(() => {
     if (!isInStock || !allOptionsSelected || !product) return
-    // Implement cart logic here
-    // e.g. addToCart({ product, variant: selectedVariant, quantity })
-  }, [isInStock, allOptionsSelected, product, selectedVariant, quantity])
+
+    addToCart({
+      data: {
+        productId: product.id,
+        variantId: selectedVariant?.id,
+        quantity,
+      }
+    })
+  }, [isInStock, allOptionsSelected, product, selectedVariant, quantity, addToCart])
 
   // ── Return ─────────────────────────────────────────────────────────────────
   return {
@@ -190,6 +200,7 @@ export function useProductDetail(slug: string) {
 
     // Validation
     allOptionsSelected,
+    isAddingToCart,
     onAddToCart,
   }
 }
