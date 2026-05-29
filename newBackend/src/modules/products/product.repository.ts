@@ -22,7 +22,7 @@ export interface PaginationOptions {
 }
 
 export interface PaginatedResult<T> {
-  data: T[];
+  items: T[];
   total: number;
   page: number;
   limit: number;
@@ -68,7 +68,7 @@ export class ProductRepository {
     ]);
 
     return {
-      data: data as unknown as Product[],
+      items: data as unknown as Product[],
       total,
       page,
       limit,

@@ -1,6 +1,5 @@
 import { OpenApiGeneratorV31 } from "@asteasolutions/zod-to-openapi";
-import { userRegistry } from "./user.routes";
-import { cartRegistry } from "./cart.routes";
+import { productRegistry } from "@/modules/products/product.registry"; 
 
 // ============================================================
 // Collect all registries from every route module
@@ -8,8 +7,7 @@ import { cartRegistry } from "./cart.routes";
 // ============================================================
 
 const allDefinitions = [
-  ...userRegistry.definitions,
-  ...cartRegistry.definitions,
+  ...productRegistry.definitions,
 ];
 
 // ============================================================
@@ -25,7 +23,7 @@ export function generateOpenApiDocument() {
       title: "E-Commerce API",
       version: "1.0.0",
       description:
-        "REST API for user management and shopping cart operations.\n\n" +
+        "REST API for product management.\n\n" +
         "**Response envelope**\n" +
         "- Success: `{ success: true, data: <payload> }`\n" +
         "- Error: `{ success: false, error: '<message>' }`",
@@ -35,12 +33,11 @@ export function generateOpenApiDocument() {
       },
     },
     servers: [
-      { url: "http://localhost:3000", description: "Local development" },
+      { url: "http://localhost:5000/api", description: "Local development" },
       { url: "https://api.example.com", description: "Production" },
     ],
     tags: [
-      { name: "Users", description: "User registration and profile management" },
-      { name: "Cart", description: "Shopping cart operations" },
+      { name: "Products", description: "Product management" },
     ],
   });
 }
