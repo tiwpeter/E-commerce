@@ -1,7 +1,7 @@
 import { useState, useMemo, useCallback } from 'react'
 import { useGetProductsSlugSlug } from '@/api/generated/products/products'
 import type { ProductVariant } from '@/api/generated/model'
-import { usePostApiCartItems } from '@/api/generated/cart/cart'
+import { usePostCartsUserIdItems } from '@/api/generated/cart/cart'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -15,7 +15,7 @@ export function useProductDetail(slug: string) {
   const product = data?.data
 
   // เพิ่ม cart mutation
-  const { mutate: addToCart, isPending: isAddingToCart } = usePostApiCartItems()
+  const { mutate: addToCart, isPending: isAddingToCart } = usePostCartsUserIdItems()
 
   // ── UI state ───────────────────────────────────────────────────────────────
   const [selectedImage, setSelectedImage] = useState(0)
@@ -155,8 +155,10 @@ export function useProductDetail(slug: string) {
 
   const onAddToCart = useCallback(() => {
     if (!isInStock || !allOptionsSelected || !product) return
-
+    const userId = "user_dev_001" 
+    
     addToCart({
+      userId, // คุณต้องมี userId จาก context หรือ state ของคุณ
       data: {
         productId: product.id,
         variantId: selectedVariant?.id,
