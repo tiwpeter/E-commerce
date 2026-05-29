@@ -1,6 +1,6 @@
 // lib/mappers.ts
 import type { Product as ApiProduct } from '@/api/generated/model/product'
-import type { Product } from '../app/(shop)/components/home/ProductCard'
+import type { Product } from '../app/(shop)/features/home/components/home/ProductCard'
 
 export function toProduct(p: ApiProduct): Product {
   return {

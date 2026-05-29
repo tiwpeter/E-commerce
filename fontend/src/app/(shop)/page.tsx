@@ -2,16 +2,16 @@ import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query
 import { getProducts, getGetProductsQueryKey   } from '@/api/generated/products/products'
 import ProductList from '@/features/products/components/ProductList'
 import CategoryBar from '@/features/categories/components/CategoryBar'
-import { SectionHeader } from '@/app/(shop)/components/home/ProductCard'
+import { SectionHeader } from '@/app/(shop)/features/home/components/home/ProductCard'
 
-import Navbar         from '@/app/(shop)/components/home/Navbar'
-import HeroBanner     from '@/app/(shop)/components/home/HeroBanner'
-import BenefitsBar    from '@/app/(shop)/components/home/BenefitsBar'
-import IconCategories from '@/app/(shop)/components/home/IconCategories'
-import SaleBanner     from '@/app/(shop)/components/home/SaleBanner'
-import NewArrivals    from '@/app/(shop)/components/home/NewArrivals'
-import FlashSales     from '@/app/(shop)/components/home/FlashSales'
-import Footer         from '@/app/(shop)/components/home/Footer'
+import Navbar         from '@/app/(shop)/features/home/components/home/Navbar'
+import HeroBanner     from '@/app/(shop)/features/home/components/home/HeroBanner'
+import BenefitsBar    from '@/app/(shop)/features/home/components/home/BenefitsBar'
+import IconCategories from '@/app/(shop)/features/home/components/home/IconCategories'
+import SaleBanner     from '@/app/(shop)/features/home/components/home/SaleBanner'
+import NewArrivals    from '@/app/(shop)/features/home/components/home/NewArrivals'
+import FlashSales     from '@/app/(shop)/features/home/components/home/FlashSales'
+import Footer         from '@/app/(shop)/features/home/components/home/Footer'
 
 export default async function HomePage() {
   const queryClient = new QueryClient()
