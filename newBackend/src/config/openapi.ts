@@ -1,5 +1,7 @@
 import { OpenApiGeneratorV31 } from "@asteasolutions/zod-to-openapi";
 import { productRegistry } from "@/modules/products/product.registry"; 
+import { cartRegistry } from "@/modules/cart/cart.registry";
+
 
 // ============================================================
 // Collect all registries from every route module
@@ -8,6 +10,7 @@ import { productRegistry } from "@/modules/products/product.registry";
 
 const allDefinitions = [
   ...productRegistry.definitions,
+  ...cartRegistry.definitions,
 ];
 
 // ============================================================
@@ -38,6 +41,7 @@ export function generateOpenApiDocument() {
     ],
     tags: [
       { name: "Products", description: "Product management" },
+      { name: "Carts", description: "Cart management" },
     ],
   });
 }
