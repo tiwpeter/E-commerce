@@ -1,5 +1,7 @@
 import { Router, type Request, type Response, type NextFunction } from "express";
+import { PrismaClient } from "@prisma/client";
 import { z } from "zod";
+import { CartRepository } from "./cart.repository";
 import {
   CartService,
   CartNotFoundError,
@@ -10,9 +12,9 @@ import {
 import {
   AddToCartSchema,
   UpdateCartItemSchema,
-  CartParamsSchema,
   CartItemParamsSchema,
 } from "./cart.schema";
+import { authenticate } from "../auth/auth.middleware";
 
 // ============================================================
 // Zod validation middleware helper
@@ -38,17 +40,41 @@ function validate<T extends z.ZodTypeAny>(
 }
 
 // ============================================================
+// Guard: ป้องกัน user แก้ cart คนอื่น
+// Admin ข้ามได้ — User ต้องเป็น cart ของตัวเอง
+// ============================================================
+
+function guardOwner(req: Request, res: Response, next: NextFunction): void {
+  const tokenUserId = req.user!.sub;
+  const paramUserId = req.params.userId;
+
+  if (req.user!.role === "ADMIN" || tokenUserId === paramUserId) {
+    next();
+    return;
+  }
+
+  res.status(403).json({ success: false, error: "Forbidden: not your cart" });
+}
+
+// ============================================================
 // Router factory
 // ============================================================
 
-export function createCartRouter(productService: IProductService): Router {
+export function createCartRouter(
+  db: PrismaClient,
+  productService: IProductService,
+): Router {
   const router = Router();
-  const service = new CartService(productService);
+  const cartRepo = new CartRepository(db);
+  const service = new CartService(cartRepo, productService);
 
-  // GET /carts/:userId — Get user's cart
+  // ทุก route ต้อง login ก่อน
+  router.use(authenticate);
+
+  // GET /carts/:userId
   router.get(
     "/:userId",
-    validate(CartParamsSchema, "params"),
+    guardOwner,
     async (req, res, next) => {
       try {
         const cart = await service.getCart(req.params.userId);
@@ -59,10 +85,10 @@ export function createCartRouter(productService: IProductService): Router {
     }
   );
 
-  // GET /carts/:userId/summary — Get cart summary
+  // GET /carts/:userId/summary
   router.get(
     "/:userId/summary",
-    validate(CartParamsSchema, "params"),
+    guardOwner,
     async (req, res, next) => {
       try {
         const summary = await service.getCartSummary(req.params.userId);
@@ -73,10 +99,10 @@ export function createCartRouter(productService: IProductService): Router {
     }
   );
 
-  // POST /carts/:userId/items — Add item to cart
+  // POST /carts/:userId/items
   router.post(
     "/:userId/items",
-    validate(CartParamsSchema, "params"),
+    guardOwner,
     validate(AddToCartSchema),
     async (req, res, next) => {
       try {
@@ -88,9 +114,10 @@ export function createCartRouter(productService: IProductService): Router {
     }
   );
 
-  // PATCH /carts/:userId/items/:productId — Update item quantity
+  // PATCH /carts/:userId/items/:productId
   router.patch(
     "/:userId/items/:productId",
+    guardOwner,
     validate(CartItemParamsSchema, "params"),
     validate(UpdateCartItemSchema),
     async (req, res, next) => {
@@ -107,9 +134,10 @@ export function createCartRouter(productService: IProductService): Router {
     }
   );
 
-  // DELETE /carts/:userId/items/:productId — Remove single item
+  // DELETE /carts/:userId/items/:productId
   router.delete(
     "/:userId/items/:productId",
+    guardOwner,
     validate(CartItemParamsSchema, "params"),
     async (req, res, next) => {
       try {
@@ -121,10 +149,10 @@ export function createCartRouter(productService: IProductService): Router {
     }
   );
 
-  // DELETE /carts/:userId — Clear entire cart
+  // DELETE /carts/:userId
   router.delete(
     "/:userId",
-    validate(CartParamsSchema, "params"),
+    guardOwner,
     async (req, res, next) => {
       try {
         const cart = await service.clearCart(req.params.userId);

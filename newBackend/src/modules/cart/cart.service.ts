@@ -1,5 +1,5 @@
-import { randomBytes } from "crypto";
 import type { Cart, CartItem, AddToCartInput, UpdateCartItemInput } from "./cart.schema";
+import type { CartRepository, PrismaCartFull } from "./cart.repository";
 
 // ============================================================
 // Minimal ProductService interface (inject real one)
@@ -35,21 +35,36 @@ export class ProductUnavailableError extends Error {
 }
 
 // ============================================================
-// In-Memory Store
+// Mapper: Prisma → Domain
 // ============================================================
 
-const store = new Map<string, Cart>(); // key = userId
+function toCartItem(
+  item: NonNullable<PrismaCartFull>["items"][number]
+): CartItem {
+  const price = item.variant
+    ? Number(item.variant.price)
+    : Number(item.product.basePrice);
 
-function generateId(): string {
-  return randomBytes(10).toString("base64url");
+  return {
+    id: item.id,
+    productId: item.productId,
+    variantId: item.variantId,
+    quantity: item.quantity,
+    productName: item.product.name,
+    price,
+    createdAt: item.createdAt,
+    updatedAt: item.updatedAt,
+  };
 }
 
-function getOrCreateCart(userId: string): Cart {
-  if (!store.has(userId)) {
-    const now = new Date();
-    store.set(userId, { id: generateId(), userId, items: [], createdAt: now, updatedAt: now });
-  }
-  return store.get(userId)!;
+function toCart(prismaCart: NonNullable<PrismaCartFull>): Cart {
+  return {
+    id: prismaCart.id,
+    userId: prismaCart.userId,
+    items: prismaCart.items.map(toCartItem),
+    createdAt: prismaCart.createdAt,
+    updatedAt: prismaCart.updatedAt,
+  };
 }
 
 // ============================================================
@@ -57,16 +72,17 @@ function getOrCreateCart(userId: string): Cart {
 // ============================================================
 
 export class CartService {
-  constructor(private readonly productService: IProductService) {}
+  constructor(
+    private readonly cartRepo: CartRepository,
+    private readonly productService: IProductService,
+  ) {}
 
-  /** Get cart for a user (auto-create if not exists) */
   async getCart(userId: string): Promise<Cart> {
-    return getOrCreateCart(userId);
+    const cart = await this.cartRepo.upsert(userId);
+    return toCart(cart);
   }
 
-  /** Add item — calls ProductService to validate product exists */
   async addItem(userId: string, data: AddToCartInput): Promise<Cart> {
-    // Validate product exists via ProductService
     let product: { id: string; name: string; basePrice: number | string };
     try {
       product = await this.productService.getProductById(data.productId);
@@ -74,79 +90,58 @@ export class CartService {
       throw new ProductUnavailableError(data.productId);
     }
 
-    const cart = getOrCreateCart(userId);
-    const key = `${data.productId}:${data.variantId ?? ""}`;
+    const cart = await this.cartRepo.upsert(userId);
 
-    const existingIndex = cart.items.findIndex(
-      (i) => i.productId === data.productId && i.variantId === (data.variantId ?? null)
-    );
+    await this.cartRepo.upsertItem({
+      cartId: cart.id,
+      productId: data.productId,
+      variantId: data.variantId ?? null,
+      quantity: data.quantity,
+    });
 
-    const now = new Date();
+    await this.cartRepo.touch(cart.id);
 
-    if (existingIndex >= 0) {
-      // Increment quantity
-      cart.items[existingIndex].quantity += data.quantity;
-      cart.items[existingIndex].updatedAt = now;
-    } else {
-      const newItem: CartItem = {
-        id: generateId(),
-        productId: data.productId,
-        variantId: data.variantId ?? null,
-        quantity: data.quantity,
-        productName: product.name,
-        price: Number(product.basePrice),
-        createdAt: now,
-        updatedAt: now,
-      };
-      cart.items.push(newItem);
-    }
-
-    cart.updatedAt = now;
-    store.set(userId, cart);
-    return cart;
+    return this.getCart(userId);
   }
 
-  /** Update quantity — quantity=0 removes the item */
-  async updateItem(userId: string, productId: string, data: UpdateCartItemInput): Promise<Cart> {
-    const cart = store.get(userId);
+  async updateItem(
+    userId: string,
+    productId: string,
+    data: UpdateCartItemInput,
+  ): Promise<Cart> {
+    const cart = await this.cartRepo.findIdByUserId(userId);
     if (!cart) throw new CartNotFoundError(userId);
 
-    const index = cart.items.findIndex((i) => i.productId === productId);
-    if (index < 0) throw new CartItemNotFoundError(productId);
-
-    const now = new Date();
+    const item = await this.cartRepo.findItem(cart.id, productId);
+    if (!item) throw new CartItemNotFoundError(productId);
 
     if (data.quantity === 0) {
-      cart.items.splice(index, 1);
+      await this.cartRepo.deleteItem(item.id);
     } else {
-      cart.items[index].quantity = data.quantity;
-      cart.items[index].updatedAt = now;
+      await this.cartRepo.setItemQuantity(item.id, data.quantity);
     }
 
-    cart.updatedAt = now;
-    store.set(userId, cart);
-    return cart;
+    await this.cartRepo.touch(cart.id);
+
+    return this.getCart(userId);
   }
 
-  /** Remove single item */
   async removeItem(userId: string, productId: string): Promise<Cart> {
     return this.updateItem(userId, productId, { quantity: 0 });
   }
 
-  /** Clear entire cart */
   async clearCart(userId: string): Promise<Cart> {
-    const cart = store.get(userId);
+    const cart = await this.cartRepo.findIdByUserId(userId);
     if (!cart) throw new CartNotFoundError(userId);
 
-    cart.items = [];
-    cart.updatedAt = new Date();
-    store.set(userId, cart);
-    return cart;
+    await this.cartRepo.deleteAllItems(cart.id);
+    await this.cartRepo.touch(cart.id);
+
+    return this.getCart(userId);
   }
 
-  /** Summary: total items count + total price */
   async getCartSummary(userId: string): Promise<{ itemCount: number; total: number }> {
-    const cart = getOrCreateCart(userId);
+    const cart = await this.getCart(userId);
     const itemCount = cart.items.reduce((sum, i) => sum + i.quantity, 0);
     const total = cart.items.reduce((sum, i) => sum + (i.price ?? 0) * i.quantity, 0);
     return { itemCount, total };

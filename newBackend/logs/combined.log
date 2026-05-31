@@ -2070,3 +2070,9 @@
 {"level":"info","message":"📄 Swagger JSON: http://localhost:5000/api-docs.json","service":"ecommerce-api","timestamp":"2026-05-29T09:26:42.512Z"}
 {"level":"info","message":"🌍 Environment: development","service":"ecommerce-api","timestamp":"2026-05-29T09:26:42.513Z"}
 {"level":"info","message":"📡 API Prefix: /api/v1","service":"ecommerce-api","timestamp":"2026-05-29T09:26:42.513Z"}
+{"level":"info","message":"✅ Database connected (via PrismaPg adapter)","service":"ecommerce-api","timestamp":"2026-05-29T22:38:22.770Z"}
+{"level":"info","message":"🚀 Server running on port 5000","service":"ecommerce-api","timestamp":"2026-05-29T22:38:22.815Z"}
+{"level":"info","message":"📖 API Docs: http://localhost:5000/api-docs","service":"ecommerce-api","timestamp":"2026-05-29T22:38:22.815Z"}
+{"level":"info","message":"📄 Swagger JSON: http://localhost:5000/api-docs.json","service":"ecommerce-api","timestamp":"2026-05-29T22:38:22.816Z"}
+{"level":"info","message":"🌍 Environment: development","service":"ecommerce-api","timestamp":"2026-05-29T22:38:22.816Z"}
+{"level":"info","message":"📡 API Prefix: /api/v1","service":"ecommerce-api","timestamp":"2026-05-29T22:38:22.817Z"}

@@ -1,9 +1,14 @@
 import express, { Application } from 'express';
 import swaggerUi from 'swagger-ui-express';
-import productRoutes  from './modules/products/product.routes';
+import productRoutes, { productService }  from './modules/products/product.routes';
+import { createCartRouter, cartErrorHandler } from './modules/cart/cart.routes';
+import {createAuthRouter} from './modules/auth/auth.router';
 import cors from 'cors';
 import { config } from './config/app.config';
 import { generateOpenApiDocument } from './config/openapi';
+import { PrismaClient } from '@prisma/client';
+
+const db = new PrismaClient();
 
 export const createApp = (): Application => {
   const app = express();
@@ -23,6 +28,9 @@ export const createApp = (): Application => {
 
   // Routes
   app.use('/api/products', productRoutes);
+  app.use('/api/carts', createCartRouter(db, productService));
+  app.use('/api/auth', createAuthRouter(db));
+  
   // Swagger UI
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openApiDoc));
   app.get('/api-docs.json', (_req, res) => res.json(openApiDoc));

@@ -1,6 +1,7 @@
 import { OpenApiGeneratorV31 } from "@asteasolutions/zod-to-openapi";
 import { productRegistry } from "@/modules/products/product.registry"; 
 import { cartRegistry } from "@/modules/cart/cart.registry";
+import { authRegistry } from "@/modules/auth/auth.registry";
 
 
 // ============================================================
@@ -11,6 +12,7 @@ import { cartRegistry } from "@/modules/cart/cart.registry";
 const allDefinitions = [
   ...productRegistry.definitions,
   ...cartRegistry.definitions,
+  ...authRegistry.definitions,
 ];
 
 // ============================================================
@@ -42,6 +44,7 @@ export function generateOpenApiDocument() {
     tags: [
       { name: "Products", description: "Product management" },
       { name: "Carts", description: "Cart management" },
+      { name: "Auth", description: "Authentication management" },
     ],
   });
 }
