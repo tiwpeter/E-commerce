@@ -2076,3 +2076,31 @@
 {"level":"info","message":"📄 Swagger JSON: http://localhost:5000/api-docs.json","service":"ecommerce-api","timestamp":"2026-05-29T22:38:22.816Z"}
 {"level":"info","message":"🌍 Environment: development","service":"ecommerce-api","timestamp":"2026-05-29T22:38:22.816Z"}
 {"level":"info","message":"📡 API Prefix: /api/v1","service":"ecommerce-api","timestamp":"2026-05-29T22:38:22.817Z"}
+{"level":"info","message":"✅ Database connected (via PrismaPg adapter)","service":"ecommerce-api","timestamp":"2026-06-02T09:24:06.796Z"}
+{"level":"info","message":"🚀 Server running on port 5000","service":"ecommerce-api","timestamp":"2026-06-02T09:24:06.844Z"}
+{"level":"info","message":"📖 API Docs: http://localhost:5000/api-docs","service":"ecommerce-api","timestamp":"2026-06-02T09:24:06.844Z"}
+{"level":"info","message":"📄 Swagger JSON: http://localhost:5000/api-docs.json","service":"ecommerce-api","timestamp":"2026-06-02T09:24:06.845Z"}
+{"level":"info","message":"🌍 Environment: development","service":"ecommerce-api","timestamp":"2026-06-02T09:24:06.846Z"}
+{"level":"info","message":"📡 API Prefix: /api/v1","service":"ecommerce-api","timestamp":"2026-06-02T09:24:06.846Z"}
+{"level":"info","message":"SIGINT received. Starting graceful shutdown...","service":"ecommerce-api","timestamp":"2026-06-02T09:24:07.166Z"}
+{"level":"info","message":"✅ Database connected (via PrismaPg adapter)","service":"ecommerce-api","timestamp":"2026-06-02T09:24:12.842Z"}
+{"level":"info","message":"🚀 Server running on port 5000","service":"ecommerce-api","timestamp":"2026-06-02T09:24:12.900Z"}
+{"level":"info","message":"📖 API Docs: http://localhost:5000/api-docs","service":"ecommerce-api","timestamp":"2026-06-02T09:24:12.901Z"}
+{"level":"info","message":"📄 Swagger JSON: http://localhost:5000/api-docs.json","service":"ecommerce-api","timestamp":"2026-06-02T09:24:12.902Z"}
+{"level":"info","message":"🌍 Environment: development","service":"ecommerce-api","timestamp":"2026-06-02T09:24:12.903Z"}
+{"level":"info","message":"📡 API Prefix: /api/v1","service":"ecommerce-api","timestamp":"2026-06-02T09:24:12.904Z"}
+{"level":"info","message":"SIGINT received. Starting graceful shutdown...","service":"ecommerce-api","timestamp":"2026-06-02T09:24:13.883Z"}
+{"level":"info","message":"✅ Database connected (via PrismaPg adapter)","service":"ecommerce-api","timestamp":"2026-06-02T09:31:36.165Z"}
+{"level":"info","message":"🚀 Server running on port 5000","service":"ecommerce-api","timestamp":"2026-06-02T09:31:36.218Z"}
+{"level":"info","message":"📖 API Docs: http://localhost:5000/api-docs","service":"ecommerce-api","timestamp":"2026-06-02T09:31:36.219Z"}
+{"level":"info","message":"📄 Swagger JSON: http://localhost:5000/api-docs.json","service":"ecommerce-api","timestamp":"2026-06-02T09:31:36.220Z"}
+{"level":"info","message":"🌍 Environment: development","service":"ecommerce-api","timestamp":"2026-06-02T09:31:36.220Z"}
+{"level":"info","message":"📡 API Prefix: /api/v1","service":"ecommerce-api","timestamp":"2026-06-02T09:31:36.220Z"}
+{"level":"info","message":"SIGINT received. Starting graceful shutdown...","service":"ecommerce-api","timestamp":"2026-06-02T09:31:37.495Z"}
+{"level":"info","message":"✅ Database connected (via PrismaPg adapter)","service":"ecommerce-api","timestamp":"2026-06-02T09:31:47.048Z"}
+{"level":"info","message":"🚀 Server running on port 5000","service":"ecommerce-api","timestamp":"2026-06-02T09:31:47.096Z"}
+{"level":"info","message":"📖 API Docs: http://localhost:5000/api-docs","service":"ecommerce-api","timestamp":"2026-06-02T09:31:47.096Z"}
+{"level":"info","message":"📄 Swagger JSON: http://localhost:5000/api-docs.json","service":"ecommerce-api","timestamp":"2026-06-02T09:31:47.097Z"}
+{"level":"info","message":"🌍 Environment: development","service":"ecommerce-api","timestamp":"2026-06-02T09:31:47.097Z"}
+{"level":"info","message":"📡 API Prefix: /api/v1","service":"ecommerce-api","timestamp":"2026-06-02T09:31:47.097Z"}
+{"level":"info","message":"SIGINT received. Starting graceful shutdown...","service":"ecommerce-api","timestamp":"2026-06-02T09:31:53.295Z"}

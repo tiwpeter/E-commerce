@@ -7,8 +7,13 @@ import cors from 'cors';
 import { config } from './config/app.config';
 import { generateOpenApiDocument } from './config/openapi';
 import { PrismaClient } from '@prisma/client';
+import { PrismaPg } from '@prisma/adapter-pg';
+import pg from 'pg';
 
-const db = new PrismaClient();
+const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
+const adapter = new PrismaPg(pool);
+
+const db = new PrismaClient({ adapter }); 
 
 export const createApp = (): Application => {
   const app = express();
@@ -30,7 +35,6 @@ export const createApp = (): Application => {
   app.use('/api/products', productRoutes);
   app.use('/api/carts', createCartRouter(db, productService));
   app.use('/api/auth', createAuthRouter(db));
-  
   // Swagger UI
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openApiDoc));
   app.get('/api-docs.json', (_req, res) => res.json(openApiDoc));
