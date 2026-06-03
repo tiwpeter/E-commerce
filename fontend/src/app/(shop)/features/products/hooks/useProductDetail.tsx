@@ -2,6 +2,8 @@ import { useState, useMemo, useCallback } from 'react'
 import { useGetProductsSlugSlug } from '@/api/generated/products/products'
 import type { ProductVariant } from '@/api/generated/model'
 import { usePostCartsUserIdItems } from '@/api/generated/cart/cart'
+import { useAuth } from '@/app/context/auth-context'
+import { useRequireAuth } from '@/app/(auth)/hook/useRequireAuth'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -21,6 +23,9 @@ export function useProductDetail(slug: string) {
   const [selectedImage, setSelectedImage] = useState(0)
   const [selectedOptions, setSelectedOptions] = useState<SelectedOptions>({})
   const [quantity, setQuantity] = useState(1)
+  // ── Auth: ดึง userId จาก context แทน hardcode ────────────────────────────
+  const { user } = useAuth()
+  const { requireAuth } = useRequireAuth()
 
   // ── Derived: sorted images ─────────────────────────────────────────────────
   const sortedImages = useMemo(() => {
@@ -155,17 +160,18 @@ export function useProductDetail(slug: string) {
 
   const onAddToCart = useCallback(() => {
     if (!isInStock || !allOptionsSelected || !product) return
-    const userId = "user_dev_001" 
-    
-    addToCart({
-      userId, // คุณต้องมี userId จาก context หรือ state ของคุณ
-      data: {
-        productId: product.id,
-        variantId: selectedVariant?.id,
-        quantity,
-      }
+
+    requireAuth(() => {
+      addToCart({
+        userId: user!.id,
+        data: {
+          productId: product.id,
+          variantId: selectedVariant?.id,
+          quantity,
+        },
+      })
     })
-  }, [isInStock, allOptionsSelected, product, selectedVariant, quantity, addToCart])
+  }, [isInStock, allOptionsSelected, product, selectedVariant, quantity, addToCart, requireAuth, user])
 
   // ── Return ─────────────────────────────────────────────────────────────────
   return {

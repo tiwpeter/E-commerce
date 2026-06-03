@@ -2104,3 +2104,15 @@
 {"level":"info","message":"🌍 Environment: development","service":"ecommerce-api","timestamp":"2026-06-02T09:31:47.097Z"}
 {"level":"info","message":"📡 API Prefix: /api/v1","service":"ecommerce-api","timestamp":"2026-06-02T09:31:47.097Z"}
 {"level":"info","message":"SIGINT received. Starting graceful shutdown...","service":"ecommerce-api","timestamp":"2026-06-02T09:31:53.295Z"}
+{"level":"info","message":"✅ Database connected (via PrismaPg adapter)","service":"ecommerce-api","timestamp":"2026-06-02T10:29:37.359Z"}
+{"level":"info","message":"🚀 Server running on port 5000","service":"ecommerce-api","timestamp":"2026-06-02T10:29:37.462Z"}
+{"level":"info","message":"📖 API Docs: http://localhost:5000/api-docs","service":"ecommerce-api","timestamp":"2026-06-02T10:29:37.466Z"}
+{"level":"info","message":"📄 Swagger JSON: http://localhost:5000/api-docs.json","service":"ecommerce-api","timestamp":"2026-06-02T10:29:37.471Z"}
+{"level":"info","message":"🌍 Environment: development","service":"ecommerce-api","timestamp":"2026-06-02T10:29:37.519Z"}
+{"level":"info","message":"📡 API Prefix: /api/v1","service":"ecommerce-api","timestamp":"2026-06-02T10:29:37.557Z"}
+{"level":"info","message":"✅ Database connected (via PrismaPg adapter)","service":"ecommerce-api","timestamp":"2026-06-02T19:57:28.471Z"}
+{"level":"info","message":"🚀 Server running on port 5000","service":"ecommerce-api","timestamp":"2026-06-02T19:57:28.529Z"}
+{"level":"info","message":"📖 API Docs: http://localhost:5000/api-docs","service":"ecommerce-api","timestamp":"2026-06-02T19:57:28.530Z"}
+{"level":"info","message":"📄 Swagger JSON: http://localhost:5000/api-docs.json","service":"ecommerce-api","timestamp":"2026-06-02T19:57:28.530Z"}
+{"level":"info","message":"🌍 Environment: development","service":"ecommerce-api","timestamp":"2026-06-02T19:57:28.531Z"}
+{"level":"info","message":"📡 API Prefix: /api/v1","service":"ecommerce-api","timestamp":"2026-06-02T19:57:28.532Z"}
