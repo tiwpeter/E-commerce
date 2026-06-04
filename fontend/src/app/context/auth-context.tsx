@@ -39,6 +39,8 @@ const AuthContext = createContext<AuthContextValue | null>(null);
 /*  Provider                                                            */
 /* ------------------------------------------------------------------ */
 
+const STORAGE_KEY = 'auth-storage';
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const queryClient = useQueryClient();
 
@@ -56,7 +58,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = useCallback(
     async (data: LoginInput) => {
-      await loginMutation.mutateAsync({ data });
+      const res = await loginMutation.mutateAsync({ data });
+ 
+      // ✅ เซฟ token ลง localStorage — ตรงกับที่ axios interceptor อ่าน
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        state: {
+          accessToken:  res.tokens.accessToken,
+          refreshToken: res.tokens.refreshToken,
+        },
+      }));
+ 
       await queryClient.invalidateQueries({ queryKey: getGetAuthMeQueryKey() });
     },
     [loginMutation, queryClient]

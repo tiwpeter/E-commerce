@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/app/context/auth-context";
 import { useCart } from "@/app/context/cart-context";
 import { CartItemRow } from "@/app/(shop)/features/cart/components/cart-item-row";
-//import { ProtectedRoute } from "@/components/protected-route";
+import { ProtectedRoute } from "@/app/(auth)/components/protected-route";
 
 function CartContent() {
   const router = useRouter();

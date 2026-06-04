@@ -112,11 +112,11 @@ export class AuthService {
     if (!user.isActive) {
       throw Object.assign(new Error("Account is inactive"), { status: 403 });
     }
-
+/*
     if (!user.emailVerified) {
       throw Object.assign(new Error("Email not verified"), { status: 403 });
     }
-
+*/
     const tokens = issueTokens(user.id, user.role);
     await this.db.user.update({
       where: { id: user.id },
