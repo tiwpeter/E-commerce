@@ -9,9 +9,11 @@
 - Error: `{ success: false, error: '<message>' }`
  * OpenAPI spec version: 1.0.0
  */
-import type { GetProducts200Data } from './getProducts200Data';
+import type { Product } from './product';
 
 export type GetProducts200 = {
-  success: true;
-  data: GetProducts200Data;
+  items: Product[];
+  total: number;
+  page: number;
+  limit: number;
 };

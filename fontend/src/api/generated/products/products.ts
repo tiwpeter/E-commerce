@@ -30,19 +30,15 @@ import type {
 
 import type {
   CreateProduct,
-  DeleteProductsId200,
   DeleteProductsId404,
   GetProducts200,
   GetProducts500,
-  GetProductsId200,
   GetProductsId404,
   GetProductsParams,
-  GetProductsSlugSlug200,
   GetProductsSlugSlug404,
-  PostProducts201,
   PostProducts400,
   PostProducts500,
-  PutProductsId200,
+  Product,
   PutProductsId400,
   PutProductsId404,
   UpdateProduct
@@ -155,7 +151,7 @@ export const postProducts = (
 ) => {
 
 
-      return customAxios<PostProducts201>(
+      return customAxios<Product>(
       {url: `/products`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
       data: createProduct, signal
@@ -218,7 +214,7 @@ export const getProductsSlugSlug = (
 ) => {
 
 
-      return customAxios<GetProductsSlugSlug200>(
+      return customAxios<Product>(
       {url: `/products/slug/${slug}`, method: 'GET', signal
     },
       );
@@ -310,7 +306,7 @@ export const getProductsId = (
 ) => {
 
 
-      return customAxios<GetProductsId200>(
+      return customAxios<Product>(
       {url: `/products/${id}`, method: 'GET', signal
     },
       );
@@ -403,7 +399,7 @@ export const putProductsId = (
 ) => {
 
 
-      return customAxios<PutProductsId200>(
+      return customAxios<Product>(
       {url: `/products/${id}`, method: 'PUT',
       headers: {'Content-Type': 'application/json', },
       data: updateProduct, signal
@@ -466,7 +462,7 @@ export const deleteProductsId = (
 ) => {
 
 
-      return customAxios<DeleteProductsId200>(
+      return customAxios<Product>(
       {url: `/products/${id}`, method: 'DELETE', signal
     },
       );

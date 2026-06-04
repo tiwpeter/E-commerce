@@ -5,15 +5,11 @@ import { ProductSchema, CreateProductSchema, UpdateProductSchema } from "./produ
 export const productRegistry = new OpenAPIRegistry();
 
 // ── Response wrappers ─────────────────────────────────────────
-const SuccessSingle = z.object({ success: z.literal(true), data: ProductSchema });
-const SuccessList   = z.object({
-  success: z.literal(true),
-  data: z.object({
-    items: z.array(ProductSchema),
-    total: z.number().int(),
-    page:  z.number().int(),
-    limit: z.number().int(),
-  }),
+const ProductList = z.object({
+  items: z.array(ProductSchema),
+  total: z.number().int(),
+  page:  z.number().int(),
+  limit: z.number().int(),
 });
 const ErrorResponse = z.object({ success: z.literal(false), error: z.string() });
 
@@ -32,7 +28,7 @@ productRegistry.registerPath({
     }),
   },
   responses: {
-    200: { description: "OK",           content: { "application/json": { schema: SuccessList } } },
+    200: { description: "OK",           content: { "application/json": { schema: ProductList } } },
     500: { description: "Server error", content: { "application/json": { schema: ErrorResponse } } },
   },
 });
@@ -45,7 +41,7 @@ productRegistry.registerPath({
     body: { content: { "application/json": { schema: CreateProductSchema } }, required: true },
   },
   responses: {
-    201: { description: "Created",      content: { "application/json": { schema: SuccessSingle } } },
+    201: { description: "Created",      content: { "application/json": { schema: ProductSchema } } },
     400: { description: "Validation",   content: { "application/json": { schema: ErrorResponse } } },
     500: { description: "Server error", content: { "application/json": { schema: ErrorResponse } } },
   },
@@ -57,7 +53,7 @@ productRegistry.registerPath({
   tags: ["Products"], summary: "Get product by slug",
   request: { params: z.object({ slug: z.string() }) },
   responses: {
-    200: { description: "OK",        content: { "application/json": { schema: SuccessSingle } } },
+    200: { description: "OK",        content: { "application/json": { schema: ProductSchema } } },
     404: { description: "Not found", content: { "application/json": { schema: ErrorResponse } } },
   },
 });
@@ -68,7 +64,7 @@ productRegistry.registerPath({
   tags: ["Products"], summary: "Get product by id",
   request: { params: z.object({ id: z.string().cuid() }) },
   responses: {
-    200: { description: "OK",        content: { "application/json": { schema: SuccessSingle } } },
+    200: { description: "OK",        content: { "application/json": { schema: ProductSchema } } },
     404: { description: "Not found", content: { "application/json": { schema: ErrorResponse } } },
   },
 });
@@ -82,7 +78,7 @@ productRegistry.registerPath({
     body: { content: { "application/json": { schema: UpdateProductSchema } }, required: true },
   },
   responses: {
-    200: { description: "Updated",    content: { "application/json": { schema: SuccessSingle } } },
+    200: { description: "Updated",    content: { "application/json": { schema: ProductSchema } } },
     400: { description: "Validation", content: { "application/json": { schema: ErrorResponse } } },
     404: { description: "Not found",  content: { "application/json": { schema: ErrorResponse } } },
   },
@@ -94,7 +90,7 @@ productRegistry.registerPath({
   tags: ["Products"], summary: "Soft delete",
   request: { params: z.object({ id: z.string().cuid() }) },
   responses: {
-    200: { description: "Deleted",   content: { "application/json": { schema: SuccessSingle } } },
+    200: { description: "Deleted",   content: { "application/json": { schema: ProductSchema } } },
     404: { description: "Not found", content: { "application/json": { schema: ErrorResponse } } },
   },
 });

@@ -28,5 +28,10 @@ api.interceptors.request.use((config) => {
 // ── customAxios — orval mutator ──────────────────────────────────
 // orval จะ generate code เรียก customAxios(config) แทน axios โดยตรง
 // signature ต้องรับ AxiosRequestConfig และ return Promise<T>
+type ApiResponse<T> = {
+  success: boolean
+  data: T
+}
+
 export const customAxios = <T>(config: AxiosRequestConfig): Promise<T> =>
-  api(config).then((res) => res.data);
+  api(config).then((res: { data: ApiResponse<T> }) => res.data.data);

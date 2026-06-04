@@ -7,7 +7,7 @@ export function useProducts(params?: GetProductsParams) {
   const { data: response, isPending, isError } = useGetProducts(params)
 
   return {
-    products: response?.data.items.map(toProduct) ?? [],
+    products: response?.items.map(toProduct) ?? [],
     isPending,
     isError,
   }

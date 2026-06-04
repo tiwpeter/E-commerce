@@ -21,7 +21,7 @@ export class AuthController {
     try {
       const input = RegisterSchema.parse(req.body);
       const result = await this.authService.register(input);
-      res.status(201).json(result);
+      res.status(201).json({ success: true, data: result });
     } catch (err) {
       next(err);
     }
@@ -35,7 +35,7 @@ export class AuthController {
     try {
       const input = LoginSchema.parse(req.body);
       const result = await this.authService.login(input);
-      res.status(200).json(result);
+      res.status(200).json({ success: true, data: result });
     } catch (err) {
       next(err);
     }
@@ -48,7 +48,7 @@ export class AuthController {
   logout = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       await this.authService.logout(req.user!.sub);
-      res.status(200).json({ message: "Logged out successfully" });
+      res.status(200).json({ success: true, data: { message: "Logged out successfully" } });
     } catch (err) {
       next(err);
     }
@@ -62,7 +62,7 @@ export class AuthController {
     try {
       const input = RefreshTokenSchema.parse(req.body);
       const tokens = await this.authService.refresh(input);
-      res.status(200).json(tokens);
+      res.status(200).json({ success: true, data: tokens });
     } catch (err) {
       next(err);
     }
@@ -75,7 +75,7 @@ export class AuthController {
   me = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const user = await this.authService.me(req.user!.sub);
-      res.status(200).json(user);
+      res.status(200).json({ success: true, data: user });
     } catch (err) {
       next(err);
     }
@@ -89,7 +89,7 @@ export class AuthController {
     try {
       const input = VerifyEmailSchema.parse(req.body);
       await this.authService.verifyEmail(input);
-      res.status(200).json({ message: "Email verified successfully" });
+      res.status(200).json({ success: true, data: { message: "Email verified successfully" } });
     } catch (err) {
       next(err);
     }
@@ -103,7 +103,7 @@ export class AuthController {
     try {
       const input = ForgotPasswordSchema.parse(req.body);
       await this.authService.forgotPassword(input);
-      res.status(200).json({ message: "If that email is registered, a reset link has been sent." });
+      res.status(200).json({ success: true, data: { message: "If that email is registered, a reset link has been sent." } });
     } catch (err) {
       next(err);
     }
@@ -117,7 +117,7 @@ export class AuthController {
     try {
       const input = ResetPasswordSchema.parse(req.body);
       await this.authService.resetPassword(input);
-      res.status(200).json({ message: "Password reset successfully" });
+      res.status(200).json({ success: true, data: { message: "Password reset successfully" } });
     } catch (err) {
       next(err);
     }
@@ -131,7 +131,7 @@ export class AuthController {
     try {
       const input = ChangePasswordSchema.parse(req.body);
       await this.authService.changePassword(req.user!.sub, input);
-      res.status(200).json({ message: "Password changed successfully" });
+      res.status(200).json({ success: true, data: { message: "Password changed successfully" } });
     } catch (err) {
       next(err);
     }

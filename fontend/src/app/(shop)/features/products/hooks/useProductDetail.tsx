@@ -14,7 +14,7 @@ type SelectedOptions = Record<string, string>
 export function useProductDetail(slug: string) {
   // ── Data fetching ──────────────────────────────────────────────────────────
   const { data, isLoading, isError } = useGetProductsSlugSlug(slug)
-  const product = data?.data
+  const product = data
 
   // เพิ่ม cart mutation
   const { mutate: addToCart, isPending: isAddingToCart } = usePostCartsUserIdItems()
