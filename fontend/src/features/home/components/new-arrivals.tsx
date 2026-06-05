@@ -1,7 +1,7 @@
 'use client'
 
-import { useProducts } from '../../hooks/useProducts'
-import { ProductCard, SectionHeader, type Product } from './ProductCard'
+import { useProducts } from '../hooks/useProducts'
+import { ProductCard, SectionHeader, type Product } from './product-card'
 
 export default function ProductList() {
   const { products, isPending, isError } = useProducts({ limit: 4 })

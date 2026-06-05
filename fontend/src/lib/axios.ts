@@ -1,37 +1,31 @@
 // src/lib/axios.ts
 import axios, { type AxiosRequestConfig } from 'axios';
-import env from '@/lib/env'
+import env from '@/lib/env';
+import { getAccessToken } from '@/lib/token-store';
 
-// ── Axios instance ───────────────────────────────────────────────
+// ── Axios instance ────────────────────────────────────────────────────
 export const api = axios.create({
   baseURL: env.NEXT_PUBLIC_API_URL,
   timeout: 10_000,
   headers: { 'Content-Type': 'application/json' },
 });
 
-// ── Request interceptor: แนบ Bearer token ───────────────────────
+// ── Request interceptor ───────────────────────────────────────────────
+// เดิม: JSON.parse(localStorage.getItem(...)) ทุก request → ช้า
+// ใหม่: getAccessToken() อ่านจาก memory ทันที ไม่แตะ localStorage เลย
 api.interceptors.request.use((config) => {
-  if (typeof window !== 'undefined') {
-    const raw = localStorage.getItem('auth-storage');
-    if (raw) {
-      try {
-        const token = JSON.parse(raw)?.state?.accessToken;
-        if (token) config.headers.Authorization = `Bearer ${token}`;
-      } catch {
-        // ignore malformed JSON
-      }
-    }
+  const token = getAccessToken();
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
 });
 
-// ── customAxios — orval mutator ──────────────────────────────────
-// orval จะ generate code เรียก customAxios(config) แทน axios โดยตรง
-// signature ต้องรับ AxiosRequestConfig และ return Promise<T>
+// ── customAxios — orval mutator ───────────────────────────────────────
 type ApiResponse<T> = {
-  success: boolean
-  data: T
-}
+  success: boolean;
+  data: T;
+};
 
 export const customAxios = <T>(config: AxiosRequestConfig): Promise<T> =>
   api(config).then((res: { data: ApiResponse<T> }) => res.data.data);

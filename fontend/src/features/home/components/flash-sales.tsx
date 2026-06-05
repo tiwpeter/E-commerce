@@ -1,4 +1,4 @@
-import { ProductCard, SectionHeader, type Product } from './ProductCard'
+import { ProductCard, SectionHeader, type Product } from './product-card'
 
 const FLASH_SALES: Product[] = [
   { id: 5, name: 'สมาร์ทวอทช์ Series 9', brand: 'Apple', price: 13900, original: 16900, discount: 18, rating: 4.9, reviews: 521, img: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&q=80' },

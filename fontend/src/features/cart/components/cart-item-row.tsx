@@ -1,8 +1,8 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import type { CartItem } from "@/api/generated";
-import { useCart } from "@/app/context/cart-context";
+import { useCart } from "@/store/cart";
 
 interface CartItemRowProps {
   item: CartItem;
@@ -36,7 +36,7 @@ export function CartItemRow({ item }: CartItemRowProps) {
           // eslint-disable-next-line @next/next/no-img-element
           <img src={item.imageUrl} alt={item.name} />
         ) : (
-          <span className="row-thumb-placeholder">🛍️</span>
+          <span className="row-thumb-placeholder">๐๏ธ</span>
         )}
       </div>
 
@@ -46,7 +46,7 @@ export function CartItemRow({ item }: CartItemRowProps) {
         {item.variantLabel && (
           <p className="row-variant">{item.variantLabel}</p>
         )}
-        <p className="row-unit-price">${item.price.toFixed(2)} / ชิ้น</p>
+        <p className="row-unit-price">${item.price.toFixed(2)} / เธเธดเนเธ</p>
       </div>
 
       {/* Qty controls */}
@@ -55,16 +55,16 @@ export function CartItemRow({ item }: CartItemRowProps) {
           className="qty-btn"
           onClick={() => handleQty(item.quantity - 1)}
           disabled={loading}
-          aria-label="ลด"
+          aria-label="เธฅเธ”"
         >
-          −
+          โ’
         </button>
         <span className="qty-value">{item.quantity}</span>
         <button
           className="qty-btn"
           onClick={() => handleQty(item.quantity + 1)}
           disabled={loading}
-          aria-label="เพิ่ม"
+          aria-label="เน€เธเธดเนเธก"
         >
           +
         </button>
@@ -78,9 +78,9 @@ export function CartItemRow({ item }: CartItemRowProps) {
         className="row-remove"
         onClick={() => handleQty(0)}
         disabled={loading}
-        aria-label="ลบสินค้า"
+        aria-label="เธฅเธเธชเธดเธเธเนเธฒ"
       >
-        ✕
+        โ•
       </button>
 
       <style jsx>{`

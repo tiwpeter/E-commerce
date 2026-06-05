@@ -1,9 +1,9 @@
-"use client";
+﻿"use client";
 
 import { useState, type ReactNode } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { AuthProvider } from "@/app/context/auth-context";
-import { CartProvider } from "@/app/context/cart-context";
+import { AuthProvider } from "@/store/auth";
+import { CartProvider } from "@/store/cart";
 
 export function Providers({ children }: { children: ReactNode }) {
   const [queryClient] = useState(
@@ -30,7 +30,7 @@ export function Providers({ children }: { children: ReactNode }) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* AuthProvider ต้องอยู่ก่อน CartProvider เพราะ cart ต้องการ user.id */}
+      {/* AuthProvider เธ•เนเธญเธเธญเธขเธนเนเธเนเธญเธ CartProvider เน€เธเธฃเธฒเธฐ cart เธ•เนเธญเธเธเธฒเธฃ user.id */}
       <AuthProvider>
         <CartProvider>
           {children}

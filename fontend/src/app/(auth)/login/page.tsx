@@ -3,7 +3,7 @@
 import { useState, type FormEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/app/context/auth-context";
+import { useAuth } from "@/store/auth";
 
 export default function LoginPage() {
   const router = useRouter();

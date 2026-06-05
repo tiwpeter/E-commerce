@@ -1,10 +1,10 @@
-"use client";
+﻿"use client";
 
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/app/context/auth-context";
-import { useCart } from "@/app/context/cart-context";
-import { CartItemRow } from "@/app/(shop)/features/cart/components/cart-item-row";
-import { ProtectedRoute } from "@/app/(auth)/components/protected-route";
+import { useAuth } from "@/store/auth";
+import { useCart } from "@/store/cart";
+import { CartItemRow } from "@/features/cart/components/cart-item-row";
+import { ProtectedRoute } from "@/features/auth/components/protected-route";
 
 function CartContent() {
   const router = useRouter();
@@ -21,29 +21,29 @@ function CartContent() {
 
   return (
     <main className="cart-page">
-      {/* ── Nav ── */}
+      {/* โ”€โ”€ Nav โ”€โ”€ */}
       <nav className="top-nav">
-        <div className="nav-logo">⬡ Shop</div>
+        <div className="nav-logo">โฌก Shop</div>
         <div className="nav-right">
           <span className="user-pill">{user?.email}</span>
           <button className="logout-btn" onClick={handleLogout}>
-            ออกจากระบบ
+            เธญเธญเธเธเธฒเธเธฃเธฐเธเธ
           </button>
         </div>
       </nav>
 
-      {/* ── Body ── */}
+      {/* โ”€โ”€ Body โ”€โ”€ */}
       <div className="cart-body">
         <div className="page-header">
           <h1 className="page-title">
-            ตะกร้าสินค้า
+            เธ•เธฐเธเธฃเนเธฒเธชเธดเธเธเนเธฒ
             {summary?.itemCount != null && (
               <span className="item-badge">{summary.itemCount}</span>
             )}
           </h1>
           {items.length > 0 && (
             <button className="clear-btn" onClick={clearCart}>
-              ล้างตะกร้า
+              เธฅเนเธฒเธเธ•เธฐเธเธฃเนเธฒ
             </button>
           )}
         </div>
@@ -52,20 +52,20 @@ function CartContent() {
         {isLoading && (
           <div className="state-box">
             <div className="spinner" />
-            <p>กำลังโหลด…</p>
+            <p>เธเธณเธฅเธฑเธเนเธซเธฅเธ”โ€ฆ</p>
           </div>
         )}
 
         {/* Empty */}
         {isEmpty && (
           <div className="state-box">
-            <span className="empty-icon">🛒</span>
-            <p>ตะกร้าว่างเปล่า</p>
+            <span className="empty-icon">๐’</span>
+            <p>เธ•เธฐเธเธฃเนเธฒเธงเนเธฒเธเน€เธเธฅเนเธฒ</p>
             <button
               className="shop-btn"
               onClick={() => router.push("/products")}
             >
-              เลือกซื้อสินค้า
+              เน€เธฅเธทเธญเธเธเธทเนเธญเธชเธดเธเธเนเธฒ
             </button>
           </div>
         )}
@@ -82,35 +82,35 @@ function CartContent() {
 
             {/* Summary */}
             <div className="summary-card">
-              <h2>สรุปคำสั่งซื้อ</h2>
+              <h2>เธชเธฃเธธเธเธเธณเธชเธฑเนเธเธเธทเนเธญ</h2>
 
               <div className="summary-row">
-                <span>สินค้า ({summary?.itemCount ?? 0} ชิ้น)</span>
+                <span>เธชเธดเธเธเนเธฒ ({summary?.itemCount ?? 0} เธเธดเนเธ)</span>
                 <span>${summary?.totalPrice?.toFixed(2) ?? "0.00"}</span>
               </div>
               <div className="summary-row">
-                <span>ค่าจัดส่ง</span>
-                <span className="free">ฟรี</span>
+                <span>เธเนเธฒเธเธฑเธ”เธชเนเธ</span>
+                <span className="free">เธเธฃเธต</span>
               </div>
 
               <div className="divider" />
 
               <div className="summary-row total">
-                <span>รวมทั้งหมด</span>
+                <span>เธฃเธงเธกเธ—เธฑเนเธเธซเธกเธ”</span>
                 <span>${summary?.totalPrice?.toFixed(2) ?? "0.00"}</span>
               </div>
 
               <button className="checkout-btn">
-                ดำเนินการชำระเงิน
+                เธ”เธณเน€เธเธดเธเธเธฒเธฃเธเธณเธฃเธฐเน€เธเธดเธ
               </button>
-              <div className="secure-badge">🔒 ชำระเงินปลอดภัย</div>
+              <div className="secure-badge">๐”’ เธเธณเธฃเธฐเน€เธเธดเธเธเธฅเธญเธ”เธ เธฑเธข</div>
             </div>
           </div>
         )}
       </div>
 
       <style jsx>{`
-        /* ── Page ── */
+        /* โ”€โ”€ Page โ”€โ”€ */
         .cart-page {
           min-height: 100vh;
           background: #0a0a0f;
@@ -118,7 +118,7 @@ function CartContent() {
           font-family: "DM Sans", system-ui, sans-serif;
         }
 
-        /* ── Nav ── */
+        /* โ”€โ”€ Nav โ”€โ”€ */
         .top-nav {
           display: flex;
           align-items: center;
@@ -161,7 +161,7 @@ function CartContent() {
         }
         .logout-btn:hover { color: #f87171; border-color: rgba(248,113,113,0.4); }
 
-        /* ── Body ── */
+        /* โ”€โ”€ Body โ”€โ”€ */
         .cart-body {
           max-width: 960px;
           margin: 0 auto;
@@ -202,7 +202,7 @@ function CartContent() {
         }
         .clear-btn:hover { color: #f87171; border-color: rgba(248,113,113,0.4); }
 
-        /* ── State boxes ── */
+        /* โ”€โ”€ State boxes โ”€โ”€ */
         .state-box {
           display: flex;
           flex-direction: column;
@@ -236,7 +236,7 @@ function CartContent() {
         }
         .shop-btn:hover { background: #4f52e0; }
 
-        /* ── Grid ── */
+        /* โ”€โ”€ Grid โ”€โ”€ */
         .cart-grid {
           display: grid;
           grid-template-columns: 1fr 300px;
@@ -247,7 +247,7 @@ function CartContent() {
           .cart-grid { grid-template-columns: 1fr; }
         }
 
-        /* ── Item list ── */
+        /* โ”€โ”€ Item list โ”€โ”€ */
         .item-list {
           list-style: none;
           margin: 0;
@@ -257,7 +257,7 @@ function CartContent() {
           gap: 0.75rem;
         }
 
-        /* ── Summary ── */
+        /* โ”€โ”€ Summary โ”€โ”€ */
         .summary-card {
           background: #111118;
           border: 1px solid #1e1e2e;

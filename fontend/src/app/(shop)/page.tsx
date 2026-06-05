@@ -1,17 +1,15 @@
-import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query'
+﻿import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query'
 import { getProducts, getGetProductsQueryKey   } from '@/api/generated/products/products'
-import ProductList from '@/features/products/components/ProductList'
-import CategoryBar from '@/features/categories/components/CategoryBar'
-import { SectionHeader } from '@/app/(shop)/features/home/components/home/ProductCard'
+import { SectionHeader } from '@/features/home/components/product-card'
 
-import Navbar         from '@/app/(shop)/features/home/components/home/Navbar'
-import HeroBanner     from '@/app/(shop)/features/home/components/home/HeroBanner'
-import BenefitsBar    from '@/app/(shop)/features/home/components/home/BenefitsBar'
-import IconCategories from '@/app/(shop)/features/home/components/home/IconCategories'
-import SaleBanner     from '@/app/(shop)/features/home/components/home/SaleBanner'
-import NewArrivals    from '@/app/(shop)/features/home/components/home/NewArrivals'
-import FlashSales     from '@/app/(shop)/features/home/components/home/FlashSales'
-import Footer         from '@/app/(shop)/features/home/components/home/Footer'
+import Navbar         from '@/features/home/components/navbar'
+import HeroBanner     from '@/features/home/components/hero-banner'
+import BenefitsBar    from '@/features/home/components/benefits-bar'
+import IconCategories from '@/features/home/components/icon-categories'
+import SaleBanner     from '@/features/home/components/sale-banner'
+import NewArrivals    from '@/features/home/components/new-arrivals'
+import FlashSales     from '@/features/home/components/flash-sales'
+import Footer         from '@/features/home/components/footer'
 
 export default async function HomePage() {
   const queryClient = new QueryClient()
@@ -33,11 +31,11 @@ export default async function HomePage() {
 
           <IconCategories />
 
-          {/* Featured Products — from API */}
+          {/* Featured Products โ€” from API */}
           <section id="products">
             <SectionHeader
-              title="สินค้าแนะนำ"
-              subtitle="สินค้าแนะนำสำหรับคุณ"
+              title="เธชเธดเธเธเนเธฒเนเธเธฐเธเธณ"
+              subtitle="เธชเธดเธเธเนเธฒเนเธเธฐเธเธณเธชเธณเธซเธฃเธฑเธเธเธธเธ“"
               href="#"
             />
          {/**  <CategoryBar /> 

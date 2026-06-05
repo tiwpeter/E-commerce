@@ -1,4 +1,5 @@
 "use client";
+// src/app/context/auth-context.tsx
 
 import {
   createContext,
@@ -13,12 +14,11 @@ import {
   usePostAuthLogin,
   usePostAuthRegister,
   usePostAuthLogout,
-} from "@/api/generated"; // adjust to your orval-generated path
+} from "@/api/generated";
 import type { LoginInput, RegisterInput, AuthUser } from "@/api/generated";
+import { setTokens, clearTokens } from "@/lib/token-store";
 
-/* ------------------------------------------------------------------ */
-/*  Types                                                               */
-/* ------------------------------------------------------------------ */
+// ── Types ─────────────────────────────────────────────────────────────
 
 interface AuthContextValue {
   user: AuthUser | null | undefined;
@@ -29,25 +29,18 @@ interface AuthContextValue {
   logout: () => Promise<void>;
 }
 
-/* ------------------------------------------------------------------ */
-/*  Context                                                             */
-/* ------------------------------------------------------------------ */
+// ── Context ───────────────────────────────────────────────────────────
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
-/* ------------------------------------------------------------------ */
-/*  Provider                                                            */
-/* ------------------------------------------------------------------ */
-
-const STORAGE_KEY = 'auth-storage';
+// ── Provider ──────────────────────────────────────────────────────────
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const queryClient = useQueryClient();
 
-  // /auth/me – tells us who is logged in
   const { data: user, isLoading } = useGetAuthMe({
     query: {
-      retry: false,           // a 401 means "not logged in", not an error
+      retry: false,
       staleTime: 1000 * 60 * 5,
     },
   });
@@ -59,18 +52,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = useCallback(
     async (data: LoginInput) => {
       const res = await loginMutation.mutateAsync({ data });
- 
-      // ✅ เซฟ token ลง localStorage — ตรงกับที่ axios interceptor อ่าน
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({
-        state: {
-          accessToken:  res.tokens.accessToken,
-          refreshToken: res.tokens.refreshToken,
-        },
-      }));
- 
+
+      // เดิม: เซฟ token ลง localStorage โดยตรง (key ต้องตรงกับ interceptor)
+      // ใหม่: setTokens() จัดการทั้ง memory + localStorage ในที่เดียว
+      setTokens(res.tokens.accessToken, res.tokens.refreshToken);
+
       await queryClient.invalidateQueries({ queryKey: getGetAuthMeQueryKey() });
     },
-    [loginMutation, queryClient]
+    [loginMutation, queryClient],
   );
 
   const register = useCallback(
@@ -78,12 +67,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       await registerMutation.mutateAsync({ data });
       await queryClient.invalidateQueries({ queryKey: getGetAuthMeQueryKey() });
     },
-    [registerMutation, queryClient]
+    [registerMutation, queryClient],
   );
 
   const logout = useCallback(async () => {
     await logoutMutation.mutateAsync();
-    queryClient.clear(); // wipe all cached data on logout
+
+    // เดิม: queryClient.clear() อย่างเดียว — token ยังอยู่ใน localStorage!
+    // ใหม่: ล้าง token ก่อน แล้วค่อย clear cache
+    clearTokens();
+    queryClient.clear();
   }, [logoutMutation, queryClient]);
 
   return (
@@ -102,9 +95,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   );
 }
 
-/* ------------------------------------------------------------------ */
-/*  Hook                                                                */
-/* ------------------------------------------------------------------ */
+// ── Hook ──────────────────────────────────────────────────────────────
 
 export function useAuth(): AuthContextValue {
   const ctx = useContext(AuthContext);

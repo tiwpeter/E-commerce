@@ -1,7 +1,7 @@
-// hooks/useRequireAuth.ts
+﻿// hooks/useRequireAuth.ts
 import { useCallback } from 'react'
 import { useRouter } from 'next/navigation'
-import { useAuth } from '@/app/context/auth-context'
+import { useAuth } from '@/store/auth'
 
 export function useRequireAuth() {
   const { user } = useAuth()
