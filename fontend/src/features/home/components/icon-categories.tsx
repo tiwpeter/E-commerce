@@ -2,23 +2,23 @@ import Link from 'next/link'
 import { ChevronRight } from 'lucide-react'
 
 const ICON_CATEGORIES = [
-  { emoji: '⚡', label: 'อิเล็กทรอนิกส์', bg: 'bg-blue-50',   ring: 'ring-blue-200'   },
-  { emoji: '👗', label: 'แฟชั่น',          bg: 'bg-pink-50',   ring: 'ring-pink-200'   },
-  { emoji: '🏠', label: 'บ้านและสวน',       bg: 'bg-green-50',  ring: 'ring-green-200'  },
-  { emoji: '✨', label: 'ความงาม',          bg: 'bg-purple-50', ring: 'ring-purple-200' },
-  { emoji: '🏃', label: 'กีฬา',            bg: 'bg-orange-50', ring: 'ring-orange-200' },
-  { emoji: '📚', label: 'หนังสือ',          bg: 'bg-yellow-50', ring: 'ring-yellow-200' },
-  { emoji: '🍜', label: 'อาหาร',           bg: 'bg-red-50',    ring: 'ring-red-200'    },
-  { emoji: '🎮', label: 'ของเล่น',          bg: 'bg-indigo-50', ring: 'ring-indigo-200' },
+  { emoji: '⚡', label: 'Electronics', bg: 'bg-blue-50',   ring: 'ring-blue-200'   },
+  { emoji: '👗', label: 'Fashion',       bg: 'bg-pink-50',   ring: 'ring-pink-200'   },
+  { emoji: '🏠', label: 'Home & Garden', bg: 'bg-green-50',  ring: 'ring-green-200'  },
+  { emoji: '✨', label: 'Beauty',        bg: 'bg-purple-50', ring: 'ring-purple-200' },
+  { emoji: '🏃', label: 'Sports',        bg: 'bg-orange-50', ring: 'ring-orange-200' },
+  { emoji: '📚', label: 'Books',         bg: 'bg-yellow-50', ring: 'ring-yellow-200' },
+  { emoji: '🍜', label: 'Food',          bg: 'bg-red-50',    ring: 'ring-red-200'    },
+  { emoji: '🎮', label: 'Toys',          bg: 'bg-indigo-50', ring: 'ring-indigo-200' },
 ]
 
 export default function IconCategories() {
   return (
     <section>
       <div className="flex items-end justify-between mb-6">
-        <h2 className="text-2xl font-bold text-gray-900 tracking-tight">หมวดหมู่สินค้า</h2>
+        <h2 className="text-2xl font-bold text-gray-900 tracking-tight">Product categories</h2>
         <Link href="#" className="flex items-center gap-1 text-sm text-gray-500 hover:text-black transition-colors font-medium">
-          ดูทั้งหมด <ChevronRight size={16} />
+          View all <ChevronRight size={16} />
         </Link>
       </div>
 

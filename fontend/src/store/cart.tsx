@@ -54,7 +54,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const { user } = useAuth();
   const userId = user?.id ?? "";
 
-  // โ”€โ”€ Queries โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€
+  // -- Queries -----------------------------------------------------
   const { data: cart, isLoading: cartLoading } = useGetCartsUserId(userId, {
     query: { enabled: !!userId },
   });
@@ -64,7 +64,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       query: { enabled: !!userId },
     });
 
-  // โ”€โ”€ Mutations โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€
+  // -- Mutations --------------------------------------------------
   const addMutation    = usePostCartsUserIdItems();
   const updateMutation = usePatchCartsUserIdItemsProductId();
   const removeMutation = useDeleteCartsUserIdItemsProductId();
@@ -79,7 +79,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     [queryClient, userId]
   );
 
-  // โ”€โ”€ Actions โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€โ”€
+  // -- Actions ----------------------------------------------------
 
   const addItem = useCallback(
     async (input: AddToCartInput) => {

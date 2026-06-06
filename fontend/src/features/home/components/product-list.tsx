@@ -6,9 +6,9 @@ export default function ProductList() {
   const { data: response, isPending, isError, error } = useGetProducts()
 
   if (isPending) return <p>Loading...</p>
-    if (isError) {
+  if (isError) {
     //console.error('❌ isError:', error)
-    return <p>ไม่สามารถโหลดสินค้าได้</p>
+    return <p>Unable to load products</p>
   }
 
   console.log('✅ products:', response?.data.items)

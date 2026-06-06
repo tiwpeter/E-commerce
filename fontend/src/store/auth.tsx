@@ -53,8 +53,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     async (data: LoginInput) => {
       const res = await loginMutation.mutateAsync({ data });
 
-      // เดิม: เซฟ token ลง localStorage โดยตรง (key ต้องตรงกับ interceptor)
-      // ใหม่: setTokens() จัดการทั้ง memory + localStorage ในที่เดียว
+      // Previous behavior: save token directly to localStorage (key must match interceptor)
+      // Updated behavior: setTokens() handles both memory and localStorage in one place
       setTokens(res.tokens.accessToken, res.tokens.refreshToken);
 
       await queryClient.invalidateQueries({ queryKey: getGetAuthMeQueryKey() });
@@ -73,8 +73,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logout = useCallback(async () => {
     await logoutMutation.mutateAsync();
 
-    // เดิม: queryClient.clear() อย่างเดียว — token ยังอยู่ใน localStorage!
-    // ใหม่: ล้าง token ก่อน แล้วค่อย clear cache
+    // Previous behavior: only queryClient.clear() — token remained in localStorage
+    // Updated behavior: clear tokens first, then clear the cache
     clearTokens();
     queryClient.clear();
   }, [logoutMutation, queryClient]);

@@ -1,24 +1,22 @@
 // src/lib/token-store.ts
 //
-// Single source of truth สำหรับ auth tokens
+// Single source of truth for auth tokens
 // ─────────────────────────────────────────────────────────────────────
-// ปัญหาเดิม:
-//   - axios interceptor อ่าน + JSON.parse localStorage ทุก request
-//   - auth-context เซฟ token ลง localStorage เอง (key เดียวกัน)
-//   - logout ไม่ได้ล้าง localStorage → token หลงเหลืออยู่
+// Previous problem:
+//   - axios interceptor read and JSON.parse localStorage on every request
+//   - auth-context saved tokens to localStorage directly (same key)
+//   - logout did not clear localStorage → stale tokens remained
 //
-// แก้ด้วย module-level variable:
-//   - อ่าน localStorage แค่ครั้งเดียวตอน module load
-//   - ทุกครั้งที่ set/clear token ทำผ่าน function เดียว
-//   - axios interceptor แค่ getAccessToken() ไม่ต้อง parse อะไรเลย
-
-const STORAGE_KEY = 'auth-storage';
+// Fix with module-level variables:
+//   - read localStorage only once on module load
+//   - set/clear token through a single shared function
+//   - axios interceptor just calls getAccessToken(), no parsing needed
 
 // ── In-memory cache ───────────────────────────────────────────────────
 let _accessToken: string | null = null;
 let _refreshToken: string | null = null;
 
-// ── Bootstrap: อ่าน localStorage ครั้งเดียวตอน app โหลด ─────────────
+// ── Bootstrap: read localStorage once when the app loads ─────────────
 function loadFromStorage(): void {
   if (typeof window === 'undefined') return; // SSR guard
   try {
@@ -36,17 +34,17 @@ loadFromStorage();
 
 // ── Public API ────────────────────────────────────────────────────────
 
-/** อ่าน access token จาก memory (ไม่แตะ localStorage) */
+/** Read access token from memory (do not touch localStorage) */
 export function getAccessToken(): string | null {
   return _accessToken;
 }
 
-/** อ่าน refresh token จาก memory (ไม่แตะ localStorage) */
+/** Read refresh token from memory (do not touch localStorage) */
 export function getRefreshToken(): string | null {
   return _refreshToken;
 }
 
-/** เซฟ token ทั้งคู่ → memory + localStorage พร้อมกัน */
+/** Save both tokens to memory and localStorage together */
 export function setTokens(accessToken: string, refreshToken: string): void {
   _accessToken  = accessToken;
   _refreshToken = refreshToken;
@@ -59,7 +57,7 @@ export function setTokens(accessToken: string, refreshToken: string): void {
   }
 }
 
-/** ล้าง token ทั้งหมด — เรียกตอน logout */
+/** Clear all tokens — call on logout */
 export function clearTokens(): void {
   _accessToken  = null;
   _refreshToken = null;

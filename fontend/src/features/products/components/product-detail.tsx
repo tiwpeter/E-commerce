@@ -98,11 +98,11 @@ export default function ProductDetail({ slug }: ProductDetailProps) {
               {/* Price */}
               <div className="flex items-baseline gap-3">
                 <span className="text-4xl font-bold text-gray-900">
-                  ฿{parseFloat(displayPrice).toLocaleString('th-TH', { minimumFractionDigits: 2 })}
+                  ${parseFloat(displayPrice).toLocaleString('en-US', { minimumFractionDigits: 2 })}
                 </span>
                 {displayComparePrice && (
                   <span className="text-xl text-gray-400 line-through">
-                    ฿{parseFloat(displayComparePrice).toLocaleString('th-TH', { minimumFractionDigits: 2 })}
+                    ${parseFloat(displayComparePrice).toLocaleString('en-US', { minimumFractionDigits: 2 })}
                   </span>
                 )}
                 {/* {discountPercent && discountPercent < 0 && (
@@ -227,7 +227,7 @@ export default function ProductDetail({ slug }: ProductDetailProps) {
                 <span>Weight: {product.weight}g</span>
               )}
               <span>
-                Updated: {new Date(product.updatedAt).toLocaleDateString('th-TH')}
+                Updated: {new Date(product.updatedAt ?? '').toLocaleDateString('en-US')}
               </span>
             </div>
           </div>
@@ -282,7 +282,7 @@ export default function ProductDetail({ slug }: ProductDetailProps) {
                           )
                         })}
                         <td className={`px-5 py-3.5 font-semibold ${isSelected ? 'text-white' : 'text-gray-900'}`}>
-                          ฿{parseFloat(variant.price).toLocaleString('th-TH', { minimumFractionDigits: 2 })}
+                          ${Number(variant.price).toLocaleString('en-US', { minimumFractionDigits: 2 })}
                         </td>
                         <td className={`px-5 py-3.5 ${isSelected ? 'text-gray-300' : 'text-gray-600'}`}>
                           {variant.stock}

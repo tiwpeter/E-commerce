@@ -2,7 +2,7 @@ import { readdirSync, writeFileSync } from 'fs'
 
 const base = './src/api/generated'
 const dirs = readdirSync(base, { withFileTypes: true })
-  .filter(d => d.isDirectory()) // ลบ && d.name !== 'model' ออก
+  .filter(d => d.isDirectory()) // remove && d.name !== 'model'
   .map(d => d.name)
 
 dirs.forEach(dir => {

@@ -16,9 +16,9 @@ export function useProductDetail(slug: string) {
   // ── Data fetching ─────────────────────────────────────────────────
   const { data: product, isLoading, isError } = useGetProductsSlugSlug(slug);
 
-  // เดิม: usePostCartsUserIdItems() โดยตรง → bypass CartContext
-  //       ทำให้ไม่มี invalidation → cart summary ไม่อัปเดต
-  // ใหม่: ใช้ addItem จาก CartContext ซึ่งมี invalidation อยู่แล้ว
+  // Before: calling usePostCartsUserIdItems() directly bypassed CartContext
+  // which prevented invalidation and left cart summary stale.
+  // Now: use addItem from CartContext which handles invalidation automatically.
   const { addItem, isLoading: isAddingToCart } = useCart();
 
   // ── UI state ──────────────────────────────────────────────────────
@@ -82,8 +82,8 @@ export function useProductDetail(slug: string) {
     const compare = parseFloat(displayComparePrice);
     if (!compare || compare <= price) return null;
 
-    // เดิม: (price - compare) / compare → ได้ค่าติดลบเสมอ เพราะ price < compare
-    // ใหม่: (compare - price) / compare → ได้ % ส่วนลดที่ถูกต้อง (บวกเสมอ)
+    // Before: (price - compare) / compare would always return a negative value because price < compare.
+    // Now: (compare - price) / compare gives the correct discount percentage (always positive).
     return Math.round(((compare - price) / compare) * 100);
   }, [displayPrice, displayComparePrice]);
 
@@ -141,9 +141,9 @@ export function useProductDetail(slug: string) {
     if (!isInStock || !allOptionsSelected || !product) return;
 
     requireAuth(() => {
-      // เดิม: addToCart({ userId: user!.id, data: {...} })
-      //       → userId ต้องส่งเอง และ invalidation ไม่เกิด
-      // ใหม่: addItem() จาก CartContext จัดการ userId + invalidation ให้ทั้งหมด
+      // Before: addToCart({ userId: user!.id, data: {...} })
+      //       required manual userId handling and missed invalidation.
+      // Now: addItem() from CartContext manages userId and invalidation automatically.
       addItem({
         productId: product.id,
         variantId: selectedVariant?.id,

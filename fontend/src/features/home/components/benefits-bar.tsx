@@ -1,10 +1,10 @@
 import { Truck, ShieldCheck, RefreshCcw, Star } from 'lucide-react'
 
 const BENEFITS = [
-  { icon: Truck,        title: 'จัดส่งฟรี',      sub: 'ทุกออเดอร์ทั่วประเทศ' },
-  { icon: ShieldCheck,  title: 'ปลอดภัย 100%',   sub: 'ชำระเงินผ่านระบบที่ปลอดภัย' },
-  { icon: RefreshCcw,   title: 'คืนสินค้าได้',    sub: 'ภายใน 30 วัน' },
-  { icon: Star,         title: 'สินค้าคุณภาพ',    sub: 'คัดสรรจากแบรนด์ชั้นนำ' },
+  { icon: Truck,        title: 'Free shipping',      sub: 'On all orders nationwide' },
+  { icon: ShieldCheck,  title: '100% secure',        sub: 'Payment processed safely' },
+  { icon: RefreshCcw,   title: 'Easy returns',       sub: 'Within 30 days' },
+  { icon: Star,         title: 'Quality products',    sub: 'Handpicked from top brands' },
 ]
 
 export default function BenefitsBar() {

@@ -50,7 +50,7 @@ export function ProductCard({ product }: { product: Product }) {
           <button
             className="absolute top-3 right-3 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-md hover:bg-red-50 transition-colors"
             onClick={(e) => {
-              e.preventDefault() // ป้องกันไม่ให้คลิก Link
+              e.preventDefault() // prevent triggering the Link
               // TODO: handle wishlist
             }}
           >
@@ -62,17 +62,17 @@ export function ProductCard({ product }: { product: Product }) {
             {product.name}
           </p>
           <div className="mt-3 flex items-end gap-2">
-            <span className="text-lg font-bold text-gray-900">฿{product.price.toLocaleString()}</span>
-            <span className="text-sm text-gray-400 line-through">฿{product.original.toLocaleString()}</span>
+            <span className="text-lg font-bold text-gray-900">${product.price.toLocaleString()}</span>
+            <span className="text-sm text-gray-400 line-through">${product.original.toLocaleString()}</span>
           </div>
           <button
             className="mt-3 w-full bg-black text-white text-sm font-medium py-2.5 rounded-xl hover:bg-gray-800 active:scale-95 transition-all duration-150"
             onClick={(e) => {
-              e.preventDefault() // ป้องกันไม่ให้คลิก Link
+              e.preventDefault() // prevent triggering the Link
               // TODO: handle add to cart
             }}
           >
-            เพิ่มในตะกร้า
+            Add to cart
           </button>
         </div>
       </div>
@@ -100,7 +100,7 @@ export function SectionHeader({
           href={href}
           className="flex items-center gap-1 text-sm text-gray-500 hover:text-black transition-colors font-medium"
         >
-          ดูทั้งหมด <ChevronRight size={16} />
+          View all <ChevronRight size={16} />
         </Link>
       )}
     </div>

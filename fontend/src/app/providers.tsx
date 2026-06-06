@@ -30,7 +30,7 @@ export function Providers({ children }: { children: ReactNode }) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* AuthProvider เธ•เนเธญเธเธญเธขเธนเนเธเนเธญเธ CartProvider เน€เธเธฃเธฒเธฐ cart เธ•เนเธญเธเธเธฒเธฃ user.id */}
+      {/* AuthProvider wraps auth state. CartProvider wraps cart state and depends on user.id */}
       <AuthProvider>
         <CartProvider>
           {children}

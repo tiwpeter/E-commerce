@@ -11,8 +11,8 @@ export const api = axios.create({
 });
 
 // ── Request interceptor ───────────────────────────────────────────────
-// เดิม: JSON.parse(localStorage.getItem(...)) ทุก request → ช้า
-// ใหม่: getAccessToken() อ่านจาก memory ทันที ไม่แตะ localStorage เลย
+// Before: JSON.parse(localStorage.getItem(...)) on every request → slow
+// Now: getAccessToken() reads from memory immediately without touching localStorage
 api.interceptors.request.use((config) => {
   const token = getAccessToken();
   if (token) {

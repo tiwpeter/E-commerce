@@ -14,17 +14,17 @@ export default function SaleBanner() {
           Limited Time
         </span>
         <h2 className="text-white text-4xl font-black leading-tight mb-2">
-          ลดสูงสุด 50%
-          <span className="block text-gray-300 text-2xl font-semibold mt-1">สินค้าคัดพิเศษ</span>
+          Up to 50% off
+          <span className="block text-gray-300 text-2xl font-semibold mt-1">Curated Picks</span>
         </h2>
         <p className="text-gray-400 text-sm mb-6">
-          โปรโมชั่นพิเศษสำหรับสมาชิก ÉLITE เท่านั้น จำนวนจำกัด
+          Exclusive deals for ÉLITE members only — limited time.
         </p>
         <Link
           href="#"
           className="inline-flex items-center gap-2 bg-white text-black px-6 py-2.5 rounded-full font-semibold text-sm hover:bg-gray-100 active:scale-95 transition-all duration-150"
         >
-          ช้อปเลย →
+          Shop Now →
         </Link>
       </div>
     </section>

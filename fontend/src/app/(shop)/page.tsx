@@ -6,10 +6,8 @@ import Navbar         from '@/features/home/components/navbar'
 import HeroBanner     from '@/features/home/components/hero-banner'
 import BenefitsBar    from '@/features/home/components/benefits-bar'
 import IconCategories from '@/features/home/components/icon-categories'
-import SaleBanner     from '@/features/home/components/sale-banner'
-import NewArrivals    from '@/features/home/components/new-arrivals'
-import FlashSales     from '@/features/home/components/flash-sales'
 import Footer         from '@/features/home/components/footer'
+import ProductList    from '@/features/home/components/productList'
 
 export default async function HomePage() {
   const queryClient = new QueryClient()
@@ -31,20 +29,18 @@ export default async function HomePage() {
 
           <IconCategories />
 
-          {/* Featured Products โ€” from API */}
+          {/* Featured Products — from API */}
           <section id="products">
             <SectionHeader
-              title="เธชเธดเธเธเนเธฒเนเธเธฐเธเธณ"
-              subtitle="เธชเธดเธเธเนเธฒเนเธเธฐเธเธณเธชเธณเธซเธฃเธฑเธเธเธธเธ“"
+              title="Featured Products"
+              subtitle="Discover our top selection"
               href="#"
             />
          {/**  <CategoryBar /> 
             */} 
           </section>
 
-          <SaleBanner />
-          <NewArrivals />
-          <FlashSales />
+          <ProductList />
 
         </main>
 

@@ -16,19 +16,19 @@ export default function HeroBanner() {
           Premium Shopping Experience
         </p>
         <h1 className="text-white text-5xl md:text-6xl font-black leading-tight tracking-tight mb-4">
-          สินค้า<br />
-          <span className="text-gray-300">คุณภาพสูง</span><br />
-          ทุกชิ้น
+          Premium<br />
+          <span className="text-gray-300">quality</span><br />
+          products
         </h1>
         <p className="text-gray-400 text-sm max-w-xs mb-8 leading-relaxed">
-          คัดสรรสินค้าคุณภาพระดับพรีเมียมจากแบรนด์ชั้นนำทั่วโลก ส่งถึงมือคุณ
+          Curated premium products from top brands around the world, delivered to you.
         </p>
         <div>
           <Link
             href="#products"
             className="inline-flex items-center gap-2 bg-white text-black px-7 py-3 rounded-full font-semibold text-sm hover:bg-gray-100 active:scale-95 transition-all duration-150"
           >
-            เลือกชมสินค้า →
+            Shop products →
           </Link>
         </div>
       </div>

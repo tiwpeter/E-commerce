@@ -1,4 +1,4 @@
-﻿//products/[slug]/page.tsxย 
+﻿// products/[slug]/page.tsx
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query'
 import { getProductsSlugSlug , getGetProductsSlugSlugQueryKey } from '@/api/generated/products/products'
 import { notFound } from 'next/navigation'
@@ -11,7 +11,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
   const { slug } = await params
   const queryClient = new QueryClient()
 
-  console.log("slug:", slug) // โ… เนเธชเนเธ•เธฃเธเธเธตเน
+  console.log("slug:", slug) // debug slug
 
   try {
   await queryClient.fetchQuery({
@@ -19,7 +19,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
     queryFn: () => getProductsSlugSlug(slug),
     
   })
-} catch (err: any) {   // ๐‘ เนเธชเนเธ•เธฃเธเธเธตเน
+} catch (err: any) {   // handle errors while fetching the product
   console.log("FULL ERROR:", err)
   console.log("STATUS:", err?.response?.status)
   console.log("DATA:", err?.response?.data)

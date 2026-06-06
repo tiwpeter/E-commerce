@@ -21,29 +21,29 @@ function CartContent() {
 
   return (
     <main className="cart-page">
-      {/* โ”€โ”€ Nav โ”€โ”€ */}
+      {/* -- Nav -- */}
       <nav className="top-nav">
-        <div className="nav-logo">โฌก Shop</div>
+        <div className="nav-logo">ÉLITE Shop</div>
         <div className="nav-right">
           <span className="user-pill">{user?.email}</span>
           <button className="logout-btn" onClick={handleLogout}>
-            เธญเธญเธเธเธฒเธเธฃเธฐเธเธ
+            Logout
           </button>
         </div>
       </nav>
 
-      {/* โ”€โ”€ Body โ”€โ”€ */}
+      {/* -- Body -- */}
       <div className="cart-body">
         <div className="page-header">
           <h1 className="page-title">
-            เธ•เธฐเธเธฃเนเธฒเธชเธดเธเธเนเธฒ
+            Shopping Cart
             {summary?.itemCount != null && (
               <span className="item-badge">{summary.itemCount}</span>
             )}
           </h1>
           {items.length > 0 && (
             <button className="clear-btn" onClick={clearCart}>
-              เธฅเนเธฒเธเธ•เธฐเธเธฃเนเธฒ
+              Clear Cart
             </button>
           )}
         </div>
@@ -52,20 +52,20 @@ function CartContent() {
         {isLoading && (
           <div className="state-box">
             <div className="spinner" />
-            <p>เธเธณเธฅเธฑเธเนเธซเธฅเธ”โ€ฆ</p>
+            <p>Loading cart items...</p>
           </div>
         )}
 
         {/* Empty */}
         {isEmpty && (
           <div className="state-box">
-            <span className="empty-icon">๐’</span>
-            <p>เธ•เธฐเธเธฃเนเธฒเธงเนเธฒเธเน€เธเธฅเนเธฒ</p>
+            <span className="empty-icon">😞</span>
+            <p>Your cart is empty</p>
             <button
               className="shop-btn"
               onClick={() => router.push("/products")}
             >
-              เน€เธฅเธทเธญเธเธเธทเนเธญเธชเธดเธเธเนเธฒ
+              Continue shopping
             </button>
           </div>
         )}
@@ -82,35 +82,35 @@ function CartContent() {
 
             {/* Summary */}
             <div className="summary-card">
-              <h2>เธชเธฃเธธเธเธเธณเธชเธฑเนเธเธเธทเนเธญ</h2>
+              <h2>Order summary</h2>
 
               <div className="summary-row">
-                <span>เธชเธดเธเธเนเธฒ ({summary?.itemCount ?? 0} เธเธดเนเธ)</span>
+                <span>Items ({summary?.itemCount ?? 0} pcs)</span>
                 <span>${summary?.totalPrice?.toFixed(2) ?? "0.00"}</span>
               </div>
               <div className="summary-row">
-                <span>เธเนเธฒเธเธฑเธ”เธชเนเธ</span>
-                <span className="free">เธเธฃเธต</span>
+                <span>Shipping</span>
+                <span className="free">Free</span>
               </div>
 
               <div className="divider" />
 
               <div className="summary-row total">
-                <span>เธฃเธงเธกเธ—เธฑเนเธเธซเธกเธ”</span>
+                <span>Total</span>
                 <span>${summary?.totalPrice?.toFixed(2) ?? "0.00"}</span>
               </div>
 
               <button className="checkout-btn">
-                เธ”เธณเน€เธเธดเธเธเธฒเธฃเธเธณเธฃเธฐเน€เธเธดเธ
+                Proceed to Checkout
               </button>
-              <div className="secure-badge">๐”’ เธเธณเธฃเธฐเน€เธเธดเธเธเธฅเธญเธ”เธ เธฑเธข</div>
+              <div className="secure-badge">🔒 Secure checkout</div>
             </div>
           </div>
         )}
       </div>
 
       <style jsx>{`
-        /* โ”€โ”€ Page โ”€โ”€ */
+        /* ---- Page ---- */
         .cart-page {
           min-height: 100vh;
           background: #0a0a0f;
@@ -118,7 +118,7 @@ function CartContent() {
           font-family: "DM Sans", system-ui, sans-serif;
         }
 
-        /* โ”€โ”€ Nav โ”€โ”€ */
+        /* ---- Nav ---- */
         .top-nav {
           display: flex;
           align-items: center;
@@ -161,7 +161,7 @@ function CartContent() {
         }
         .logout-btn:hover { color: #f87171; border-color: rgba(248,113,113,0.4); }
 
-        /* โ”€โ”€ Body โ”€โ”€ */
+        /* ---- Body ---- */
         .cart-body {
           max-width: 960px;
           margin: 0 auto;
@@ -202,7 +202,7 @@ function CartContent() {
         }
         .clear-btn:hover { color: #f87171; border-color: rgba(248,113,113,0.4); }
 
-        /* โ”€โ”€ State boxes โ”€โ”€ */
+        /* ---- State boxes ---- */
         .state-box {
           display: flex;
           flex-direction: column;
@@ -236,7 +236,7 @@ function CartContent() {
         }
         .shop-btn:hover { background: #4f52e0; }
 
-        /* โ”€โ”€ Grid โ”€โ”€ */
+        /* ---- Grid ---- */
         .cart-grid {
           display: grid;
           grid-template-columns: 1fr 300px;
@@ -247,7 +247,7 @@ function CartContent() {
           .cart-grid { grid-template-columns: 1fr; }
         }
 
-        /* โ”€โ”€ Item list โ”€โ”€ */
+        /* ---- Item list ---- */
         .item-list {
           list-style: none;
           margin: 0;
@@ -257,7 +257,7 @@ function CartContent() {
           gap: 0.75rem;
         }
 
-        /* โ”€โ”€ Summary โ”€โ”€ */
+        /* ---- Summary ---- */
         .summary-card {
           background: #111118;
           border: 1px solid #1e1e2e;

@@ -4,8 +4,8 @@ import Link from 'next/link'
 import { Heart, ShoppingBag, Search } from 'lucide-react'
 
 const CATEGORY_LINKS = [
-  'ทุกหมวดหมู่', 'อิเล็กทรอนิกส์', 'แฟชั่น', 'บ้านและสวน',
-  'ความงาม', 'กีฬา', 'หนังสือ', 'อาหาร', 'ของเล่น',
+  'All Categories', 'Electronics', 'Fashion', 'Home & Garden',
+  'Beauty', 'Sports', 'Books', 'Food', 'Toys',
 ]
 
 export default function Navbar() {
@@ -21,7 +21,7 @@ export default function Navbar() {
             <Search size={16} className="text-gray-400 shrink-0" />
             <input
               type="text"
-              placeholder="ค้นหาสินค้า..."
+              placeholder="Search products..."
               className="bg-transparent text-sm text-gray-700 placeholder-gray-400 outline-none w-full"
             />
           </div>

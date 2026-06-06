@@ -1,7 +1,7 @@
 // src/lib/env.ts
 const env = {
   NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
-  // เพิ่ม env อื่นๆ ที่นี่
+  // Add other env variables here
 } as const
 
 for (const [key, value] of Object.entries(env)) {

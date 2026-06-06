@@ -27,7 +27,7 @@ export default function RegisterPage() {
     setError(null);
 
     if (password !== confirm) {
-      setError("รหัสผ่านไม่ตรงกัน");
+      setError("Passwords do not match");
       return;
     }
 
@@ -35,10 +35,10 @@ export default function RegisterPage() {
     try {
       await register({ name, email, password });
       setSuccess(true);
-      // ✅ ไม่ redirect ไป cart — ให้ user ไป verify email ก่อน
+      // ✅ Do not redirect to cart — let the user verify email first
     } catch (err: unknown) {
       const msg =
-        err instanceof Error ? err.message : "สมัครสมาชิกไม่สำเร็จ กรุณาลองใหม่";
+        err instanceof Error ? err.message : "Registration failed. Please try again.";
       setError(msg);
     } finally {
       setLoading(false);
@@ -51,25 +51,25 @@ export default function RegisterPage() {
         {/* ── Header ── */}
         <div className="auth-header">
           <div className="auth-logo">⬡</div>
-          <h1>สร้างบัญชี</h1>
-          <p>เริ่มช้อปปิ้งได้ทันที</p>
+          <h1>Create account</h1>
+          <p>Start shopping right away</p>
         </div>
 
-        {/* ── Success State: เช็ค email ── */}
+        {/* ── Success State: check email ── */}
         {success ? (
           <div className="email-sent">
             <div className="email-icon">📧</div>
-            <h2>ตรวจสอบอีเมลของคุณ</h2>
+            <h2>Check your email</h2>
             <p>
-              เราส่งลิงก์ยืนยันไปที่
+              We sent a verification link to
               <br />
               <strong>{email}</strong>
             </p>
             <p className="email-note">
-              กรุณากดลิงก์ในอีเมลเพื่อยืนยันบัญชีก่อน login
+              Please click the link in your email to verify your account before logging in
             </p>
             <Link href="/login" className="back-login-btn">
-              ไปหน้า Login
+              Go to Login
             </Link>
           </div>
         ) : (
@@ -78,7 +78,7 @@ export default function RegisterPage() {
             {error && <div className="auth-error">{error}</div>}
 
             <div className="field">
-              <label htmlFor="name">ชื่อ-นามสกุล</label>
+              <label htmlFor="name">Full Name</label>
               <input
                 id="name"
                 type="text"
@@ -91,7 +91,7 @@ export default function RegisterPage() {
             </div>
 
             <div className="field">
-              <label htmlFor="email">อีเมล</label>
+              <label htmlFor="email">Email</label>
               <input
                 id="email"
                 type="email"
@@ -105,27 +105,27 @@ export default function RegisterPage() {
 
             <div className="field-row">
               <div className="field">
-                <label htmlFor="password">รหัสผ่าน</label>
+                <label htmlFor="password">Password</label>
                 <input
                   id="password"
                   type="password"
                   autoComplete="new-password"
                   required
                   minLength={8}
-                  placeholder="อย่างน้อย 8 ตัว"
+                  placeholder="At least 8 characters"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
 
               <div className="field">
-                <label htmlFor="confirm">ยืนยันรหัสผ่าน</label>
+                <label htmlFor="confirm">Confirm Password</label>
                 <input
                   id="confirm"
                   type="password"
                   autoComplete="new-password"
                   required
-                  placeholder="พิมพ์ซ้ำอีกครั้ง"
+                  placeholder="Type your password again"
                   value={confirm}
                   onChange={(e) => setConfirm(e.target.value)}
                 />
@@ -133,15 +133,15 @@ export default function RegisterPage() {
             </div>
 
             <button type="submit" className="auth-btn" disabled={loading}>
-              {loading ? <span className="btn-spinner" /> : "สมัครสมาชิก"}
+              {loading ? <span className="btn-spinner" /> : "Register"}
             </button>
           </form>
         )}
 
         {!success && (
           <p className="auth-footer">
-            มีบัญชีอยู่แล้ว?{" "}
-            <Link href="/login">เข้าสู่ระบบ</Link>
+            Already have an account?{" "}
+            <Link href="/login">Log in</Link>
           </p>
         )}
       </div>

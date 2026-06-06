@@ -36,7 +36,7 @@ export function CartItemRow({ item }: CartItemRowProps) {
           // eslint-disable-next-line @next/next/no-img-element
           <img src={item.imageUrl} alt={item.name} />
         ) : (
-          <span className="row-thumb-placeholder">๐๏ธ</span>
+          <span className="row-thumb-placeholder">No image</span>
         )}
       </div>
 
@@ -46,7 +46,7 @@ export function CartItemRow({ item }: CartItemRowProps) {
         {item.variantLabel && (
           <p className="row-variant">{item.variantLabel}</p>
         )}
-        <p className="row-unit-price">${item.price.toFixed(2)} / เธเธดเนเธ</p>
+        <p className="row-unit-price">${item.price.toFixed(2)} / unit</p>
       </div>
 
       {/* Qty controls */}
@@ -55,16 +55,16 @@ export function CartItemRow({ item }: CartItemRowProps) {
           className="qty-btn"
           onClick={() => handleQty(item.quantity - 1)}
           disabled={loading}
-          aria-label="เธฅเธ”"
+          aria-label="Decrease quantity"
         >
-          โ’
+          -
         </button>
         <span className="qty-value">{item.quantity}</span>
         <button
           className="qty-btn"
           onClick={() => handleQty(item.quantity + 1)}
           disabled={loading}
-          aria-label="เน€เธเธดเนเธก"
+          aria-label="Increase quantity"
         >
           +
         </button>
@@ -78,9 +78,9 @@ export function CartItemRow({ item }: CartItemRowProps) {
         className="row-remove"
         onClick={() => handleQty(0)}
         disabled={loading}
-        aria-label="เธฅเธเธชเธดเธเธเนเธฒ"
+        aria-label="Remove item"
       >
-        โ•
+        ×
       </button>
 
       <style jsx>{`
