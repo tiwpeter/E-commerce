@@ -12,5 +12,5 @@
 
 export interface CartSummary {
   itemCount: number;
-  total: number;
+  totalPrice: number;
 }

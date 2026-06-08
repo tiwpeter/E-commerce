@@ -26,7 +26,7 @@ export function CartItemRow({ item }: CartItemRowProps) {
     }
   }
 
-  const subtotal = (item.price * item.quantity).toFixed(2);
+  const subtotal = ((item.price ?? 0) * item.quantity).toFixed(2);
 
   return (
     <li className={`cart-row ${loading ? "cart-row--loading" : ""}`}>

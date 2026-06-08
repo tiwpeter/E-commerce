@@ -34,7 +34,8 @@ export const CartSchema = z
 export const CartSummarySchema = z
   .object({
     itemCount: z.number().int().openapi({ example: 5 }),
-    total: z.number().openapi({ example: 149.95 }),
+    totalPrice: z.number().openapi({ example: 149.95 }),
+    
   })
   .openapi("CartSummary");
 
